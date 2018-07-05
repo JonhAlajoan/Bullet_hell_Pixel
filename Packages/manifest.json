@@ -1,4 +1,8 @@
 {
-	"dependencies": {
-	}
+  "dependencies": {
+    "com.unity.cinemachine": "2.2.0",
+    "com.unity.shadergraph": "1.1.9-preview",
+    "com.unity.render-pipelines.lightweight": "1.1.11-preview",
+    "com.unity.postprocessing": "2.0.7-preview"
+  }
 }
