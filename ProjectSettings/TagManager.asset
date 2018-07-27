@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - BackgroundCamera
+  - CinemachineController
   layers:
   - Default
   - TransparentFX
