@@ -452,7 +452,7 @@ namespace AC
 					T newComponent = field.gameObject.AddComponent <T>();
 					newComponent.AssignInitialValue ();
 
-					if (PrefabUtility.GetPrefabParent (field.gameObject) == null && PrefabUtility.GetPrefabObject (field.gameObject) != null)
+					if (PrefabUtility.GetCorrespondingObjectFromSource (field.gameObject) == null && PrefabUtility.GetPrefabObject (field.gameObject) != null)
 					{
 						newComponent.retainInPrefab = true;
 					}
@@ -492,7 +492,7 @@ namespace AC
 					T newComponent = _gameObject.AddComponent <T>();
 					newComponent.AssignInitialValue ();
 
-					if (PrefabUtility.GetPrefabParent (_gameObject) == null && PrefabUtility.GetPrefabObject (_gameObject) != null)
+					if (PrefabUtility.GetCorrespondingObjectFromSource (_gameObject) == null && PrefabUtility.GetPrefabObject (_gameObject) != null)
 					{
 						newComponent.retainInPrefab = true;
 					}

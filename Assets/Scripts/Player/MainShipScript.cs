@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class MainShipScript : BaseShip {
 
-    
-
-	void Start ()
+    Boss1 ScriptdoBoss;
+    void Start ()
     {
 		base.Initialization(10,15,50,gameObject.GetComponent<Animator>(), gameObject.GetComponent<Rigidbody2D>());
+        
 	}
+
+   
+    
 
 }

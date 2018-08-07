@@ -24,9 +24,17 @@ public abstract class BaseShip : MonoBehaviour {
 	protected float xAxis;
 	protected float yAxis;
 
-	CinemachineVirtualCamera vCam;
+    Transform ObjectLookAtMouse;
+    
+    CinemachineVirtualCamera vCam;
 
-	public void Initialization(float hp, float speedOfShip, float MsBetweenShots, Animator animatorOfShip, Rigidbody2D rigidBody)
+    protected string TypeOfController;
+
+    float heading;
+    Vector2 directionMouse;
+
+
+    public void Initialization(float hp, float speedOfShip, float MsBetweenShots, Animator animatorOfShip, Rigidbody2D rigidBody)
 	{
 		this.health = hp;
 		this.speed = speedOfShip;
@@ -38,7 +46,21 @@ public abstract class BaseShip : MonoBehaviour {
 		mainCamera = Camera.main;
 		vCam = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>();
 		animatorMainCamera = mainCamera.GetComponent<Animator>();
+        ObjectLookAtMouse = GameObject.Find("ObjectLookAtMouse").GetComponent<Transform>();
+        
 	}
+
+    public void faceMouse()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        Vector2 direction = new Vector2(
+            mousePosition.x - transform.position.x,
+            mousePosition.y - transform.position.y
+            );
+        directionMouse = direction.normalized;
+    }
 
 	public void CameraClamping()
 	{
@@ -50,8 +72,9 @@ public abstract class BaseShip : MonoBehaviour {
 		if (isCombat == true)
 		{
 			isOnCombat = false;
-			
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime = 0.5f;
+
+            vCam.m_Lens.OrthographicSize = 8f;
+            vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime = 0f;
 			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneHeight = 0.113f;
 			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneWidth = 0.075f;
 		}
@@ -59,11 +82,12 @@ public abstract class BaseShip : MonoBehaviour {
 		if (isCombat == false)
 		{
 			isOnCombat = true;
-			
+            vCam.m_Lens.OrthographicSize = 13f;
 			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime = 0;
 			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneHeight = 1f;
 			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneWidth = 1f;
 		}
+
 
 		animatorShip.SetBool("isOnCombat", isOnCombat);
 		animatorMainCamera.SetBool("isOnCombat", isOnCombat);
@@ -76,9 +100,7 @@ public abstract class BaseShip : MonoBehaviour {
 			
 			for (int i = 0; i < Muzzles.Length; i++)
 			{
-				
 				TrashMan.spawn("BulletMainShip", Muzzles[i].position, Muzzles[i].rotation);
-				Debug.Log("i: " + i + "  " + Muzzles[i].rotation);
 			}
 			nextShotTime = Time.time + msBetweenShots / 1000;
 			Shaker(3f,3f,0.5f);
@@ -102,7 +124,7 @@ public abstract class BaseShip : MonoBehaviour {
 
 	}
 
-	private void FixedUpdate()
+    private void FixedUpdate()
 	{
 		xAxis = Input.GetAxis("Horizontal");
 		yAxis = Input.GetAxis("Vertical");
@@ -125,12 +147,19 @@ public abstract class BaseShip : MonoBehaviour {
 	{
 		float actualLookAheadTime = vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime;
 
+        if (Input.GetButtonDown("Jump"))
+        {
+            TypeOfController = "Keyboard";
+            ChangeStateOfCombat(isOnCombat, actualLookAheadTime);
+        }
+
 		if (Input.GetButtonDown("Y button"))
 		{
-			ChangeStateOfCombat(isOnCombat, actualLookAheadTime);
+            TypeOfController = "Controller";
+            ChangeStateOfCombat(isOnCombat, actualLookAheadTime);
 		}
 
-		if (isOnCombat == true)
+		if (isOnCombat == true && TypeOfController == "Controller")
 		{
 			float xAxisRightStick;
 			float yAxisRightStick;
@@ -145,9 +174,21 @@ public abstract class BaseShip : MonoBehaviour {
 			{
 				Shoot();
 			}
-			
-
 		}
 
-	}
+        if(isOnCombat == true && TypeOfController == "Keyboard")
+        {
+            faceMouse();
+          
+            animatorShip.SetFloat("xAxisRightStick", directionMouse.x);
+            animatorShip.SetFloat("yAxisRightStick", directionMouse.y);
+          
+            if (Input.GetMouseButton(0))
+            {
+                Shoot();
+            }
+        }
+
+
+    }
 }

@@ -6,7 +6,7 @@ public class Boss1 : BaseBoss {
 
 	private void Start()
 	{
-		base.Initialization(1000,5,100,gameObject.GetComponent<Animator>(), gameObject.GetComponent<Material>());
+        base.Initialization(1000, 5, 100, gameObject.GetComponent<Animator>(), gameObject.GetComponent<Material>());
 	}
 
 	public override void Shoot()
@@ -17,9 +17,10 @@ public class Boss1 : BaseBoss {
 			for (int i = 0; i < Muzzles.Length; i++)
 			{
 				TrashMan.spawn("Bullet_1_Boss_1", Muzzles[i].position, Muzzles[i].rotation);
-				Debug.Log("i: " + i + "  " + Muzzles[i].rotation);
+				//Debug.Log("i: " + i + "  " + Muzzles[i].rotation);
 			}
 			nextShotTime = Time.time + msBetweenShots / 1000;
 		}
 	}
+
 }

@@ -101,7 +101,7 @@ namespace AC
 				retainInPrefab = true;
 				SetNewID_Prefab ();
 			}
-			else if (PrefabUtility.GetPrefabParent (gameObject) == null && PrefabUtility.GetPrefabObject (gameObject) != null)
+			else if (PrefabUtility.GetCorrespondingObjectFromSource (gameObject) == null && PrefabUtility.GetPrefabObject (gameObject) != null)
 			{
 				retainInPrefab = true;
 				SetNewID_Prefab ();
