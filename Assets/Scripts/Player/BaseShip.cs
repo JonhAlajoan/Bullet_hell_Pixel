@@ -33,8 +33,11 @@ public abstract class BaseShip : MonoBehaviour {
     float heading;
     Vector2 directionMouse;
 
+	Transform playerPos;
+	
 
-    public void Initialization(float hp, float speedOfShip, float MsBetweenShots, Animator animatorOfShip, Rigidbody2D rigidBody)
+
+	public void Initialization(float hp, float speedOfShip, float MsBetweenShots, Animator animatorOfShip, Rigidbody2D rigidBody)
 	{
 		this.health = hp;
 		this.speed = speedOfShip;
@@ -64,7 +67,21 @@ public abstract class BaseShip : MonoBehaviour {
 
 	public void CameraClamping()
 	{
-		
+		/*Vector3 cameraEdges = Camera.main.WorldToViewportPoint(transform.position);
+
+		Vector3 posInitial =  new Vector3(transform.position.x,transform.position.y,0);
+
+		Vector3 posFinal = new Vector3(cameraEdges.x, cameraEdges.y, 0);
+
+		transform.position = new Vector3(Mathf.Clamp(transform.position.x, posFinal.x, posInitial.x), Mathf.Clamp(transform.position.y, posInitial.y, posFinal.y), 0);
+		*/
+		for (int i = 0; i < 20; i++)
+		{
+			if (Input.GetKeyDown("joystick 1 button " + i))
+			{
+				print("joystick 1 button " + i);
+			}
+		}
 	}
 
 	private void ChangeStateOfCombat(bool isCombat, float actualTime)
@@ -103,7 +120,7 @@ public abstract class BaseShip : MonoBehaviour {
 				TrashMan.spawn("BulletMainShip", Muzzles[i].position, Muzzles[i].rotation);
 			}
 			nextShotTime = Time.time + msBetweenShots / 1000;
-			Shaker(3f,3f,0.5f);
+			Shaker(1f,1f,0.1f);
 
 		}
 	}
@@ -135,6 +152,7 @@ public abstract class BaseShip : MonoBehaviour {
 		Vector2 movement2d = new Vector2(xAxis, yAxis);
 
 		playerRigidBody.AddForce(movement2d * speed);
+
 		if(isOnCombat == true)
 		{
 			CameraClamping();
@@ -155,8 +173,7 @@ public abstract class BaseShip : MonoBehaviour {
 
 		if (Input.GetButtonDown("Y button"))
 		{
-            TypeOfController = "Controller";
-            ChangeStateOfCombat(isOnCombat, actualLookAheadTime);
+			Shoot();
 		}
 
 		if (isOnCombat == true && TypeOfController == "Controller")

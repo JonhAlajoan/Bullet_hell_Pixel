@@ -4,28 +4,37 @@ using UnityEngine;
 
 public class BaseProjectile : MonoBehaviour {
 
-	public LayerMask collisionMask;
 	float speed = 30;
 	float damage = 5f;
-	public Transform Hit_vfx;
 	public bool firstHit = true;
 	float lifetime = 3;
 	float skinWidth = .1f;
 	float count;
-	Transform playerPos;
+	
 
 
 	void Start()
 	{
+	}
 
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
 
-		Collider[] initialCollisions = Physics.OverlapSphere(transform.position, .1f, collisionMask);
-		if (initialCollisions.Length > 0)
+		if (collision.gameObject.GetComponent<BaseEnemyProjectile>() != null)
 		{
-		//	OnHitObject(initialCollisions[0]);
+			TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
+			TrashMan.despawn(collision.gameObject);
 		}
 
-		//playerPos = GameObject.FindGameObjectWithTag("PlayerHP").GetComponent<Transform>();
+		if (collision.gameObject.GetComponent<BaseBoss>() != null)
+		{
+			BaseBoss boss = collision.gameObject.GetComponent<BaseBoss>();
+			boss.TakeDamage(damage);
+			TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
+			TrashMan.despawn(gameObject);
+		}
+		
+		
 	}
 
 	public void SetSpeed(float newSpeed)

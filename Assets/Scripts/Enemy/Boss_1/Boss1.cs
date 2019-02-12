@@ -6,7 +6,7 @@ public class Boss1 : BaseBoss {
 
 	private void Start()
 	{
-        base.Initialization(1000, 5, 100, gameObject.GetComponent<Animator>(), gameObject.GetComponent<Material>());
+        base.Initialization(1000, 5, 100, gameObject.GetComponent<Animator>());
 	}
 
 	public override void Shoot()
