@@ -7,7 +7,8 @@ public abstract class BaseBoss : MonoBehaviour
 
 	protected float nextShotTime;
 	protected float msBetweenShots;
-	protected float health;
+	public float startingHealth;
+	public float health;
 	protected Animator animatorBoss;
 	public Transform targetPlayer;
 
@@ -24,7 +25,8 @@ public abstract class BaseBoss : MonoBehaviour
 
 	public void Initialization(float _hp, float _speedOfShip, float _MsBetweenShots, Animator _animatorOfShip)
 	{
-		this.health = _hp;		
+		this.startingHealth = _hp;
+		this.health = _hp;	
 		this.msBetweenShots = _MsBetweenShots;
 		this.animatorBoss = _animatorOfShip;
 	}

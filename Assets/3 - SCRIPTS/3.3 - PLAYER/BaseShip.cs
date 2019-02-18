@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PostProcessing;
 using Cinemachine;
+using System;
 public abstract class BaseShip : MonoBehaviour {
 
 	protected Camera mainCamera;
@@ -34,8 +35,8 @@ public abstract class BaseShip : MonoBehaviour {
     Vector2 directionMouse;
 
 	Transform playerPos;
-	
 
+	managerOfScene manager;
 
 	public void Initialization(float hp, float speedOfShip, float MsBetweenShots, Animator animatorOfShip, Rigidbody2D rigidBody)
 	{
@@ -47,10 +48,17 @@ public abstract class BaseShip : MonoBehaviour {
 
 
 		mainCamera = Camera.main;
-		vCam = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>();
 		animatorMainCamera = mainCamera.GetComponent<Animator>();
         ObjectLookAtMouse = GameObject.Find("ObjectLookAtMouse").GetComponent<Transform>();
-        
+		
+		manager = GameObject.FindGameObjectWithTag("ManagerScene").GetComponent<managerOfScene>();
+		vCam = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>();
+
+
+
+
+
+
 	}
 
     public void faceMouse()
@@ -75,37 +83,11 @@ public abstract class BaseShip : MonoBehaviour {
 
 		transform.position = new Vector3(Mathf.Clamp(transform.position.x, posFinal.x, posInitial.x), Mathf.Clamp(transform.position.y, posInitial.y, posFinal.y), 0);
 		*/
-		for (int i = 0; i < 20; i++)
-		{
-			if (Input.GetKeyDown("joystick 1 button " + i))
-			{
-				print("joystick 1 button " + i);
-			}
-		}
+	
 	}
 
-	private void ChangeStateOfCombat(bool isCombat, float actualTime)
+	private void animatorStateOfCombat(bool isCombat, float actualTime)
 	{
-		if (isCombat == true)
-		{
-			isOnCombat = false;
-
-            vCam.m_Lens.OrthographicSize = 8f;
-            vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime = 0f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneHeight = 0.113f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneWidth = 0.075f;
-		}
-
-		if (isCombat == false)
-		{
-			isOnCombat = true;
-            vCam.m_Lens.OrthographicSize = 13f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime = 0;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneHeight = 1f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneWidth = 1f;
-		}
-
-
 		animatorShip.SetBool("isOnCombat", isOnCombat);
 		animatorMainCamera.SetBool("isOnCombat", isOnCombat);
 	}
@@ -163,18 +145,12 @@ public abstract class BaseShip : MonoBehaviour {
 
 	void Update()
 	{
+		isOnCombat = manager.stateOfCombat;
+		TypeOfController = manager.typeOfController;
+
 		float actualLookAheadTime = vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime;
 
-        if (Input.GetButtonDown("Jump"))
-        {
-            TypeOfController = "Keyboard";
-            ChangeStateOfCombat(isOnCombat, actualLookAheadTime);
-        }
-
-		if (Input.GetButtonDown("Y button"))
-		{
-			Shoot();
-		}
+		animatorStateOfCombat(isOnCombat, actualLookAheadTime);
 
 		if (isOnCombat == true && TypeOfController == "Controller")
 		{

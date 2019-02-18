@@ -13,8 +13,9 @@ public class BaseProjectile : MonoBehaviour {
 	
 
 
-	void Start()
+	void OnEnabled()
 	{
+		count = 0;
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -23,7 +24,9 @@ public class BaseProjectile : MonoBehaviour {
 		if (collision.gameObject.GetComponent<BaseEnemyProjectile>() != null)
 		{
 			TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
+			count = 0;
 			TrashMan.despawn(collision.gameObject);
+			TrashMan.despawn(gameObject);
 		}
 
 		if (collision.gameObject.GetComponent<BaseBoss>() != null)
@@ -31,6 +34,7 @@ public class BaseProjectile : MonoBehaviour {
 			BaseBoss boss = collision.gameObject.GetComponent<BaseBoss>();
 			boss.TakeDamage(damage);
 			TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
+			count = 0;
 			TrashMan.despawn(gameObject);
 		}
 		
@@ -45,7 +49,8 @@ public class BaseProjectile : MonoBehaviour {
 	void Update()
 	{
 		count += 1 * Time.deltaTime;
-		if (count >= 2)
+
+		if (count >= 5)
 		{
 			transform.rotation = new Quaternion(0, 0, 0, 0);
 			TrashMan.despawn(gameObject);
