@@ -1,23 +1,18 @@
 fileFormatVersion: 2
-guid: 4f2e79717d5e27246a84a3947b9275c3
+guid: 4f7ba90a85497e04ca96e13033010cbc
 TextureImporter:
   fileIDToRecycleName:
-    21300000: CHERUB_EYE
-    21300002: CHERUB_FACE
-    21300004: CHERUB_LEFT_SOMETHING
-    21300006: CHERUB_RIGHT_SOMETHIGN
-    21300008: CHERUB_OUTER_RING
-    21300010: CHERUB_WING_3
-    21300012: CHERUB_BULLET_INVU
-    21300014: CHERUB_BULLET
-    21300016: CHERUB_BULLET_THIN
-    21300018: CHERUB_INNER_RING
-    21300020: CHERUB_MOUTH_MIDDLE
-    21300022: CHERUB_MOUTH_UP
-    21300024: CHERUB_WING_1
-    21300026: CHERUB_MOUTH_DOWN
-    21300028: CHERUB_WING_2
-    21300030: CHERUB_SPARK
+    21300000: Cherub_Mask_sheet_0
+    21300002: Cherub_Mask_sheet_1
+    21300004: Cherub_Mask_sheet_2
+    21300006: Cherub_Mask_sheet_3
+    21300008: Cherub_Mask_sheet_4
+    21300010: Cherub_Mask_sheet_5
+    21300012: Cherub_Mask_sheet_6
+    21300014: Cherub_Mask_sheet_7
+    21300016: Cherub_Mask_sheet_8
+    21300018: Cherub_Mask_sheet_9
+    21300020: Cherub_Mask_sheet_10
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -76,7 +71,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -87,7 +82,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -98,7 +93,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Android
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -109,7 +104,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Windows Store Apps
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -120,7 +115,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: WebGL
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -133,321 +128,221 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CHERUB_EYE
+      name: Cherub_Mask_sheet_0
       rect:
         serializedVersion: 2
-        x: 380
-        y: 947
-        width: 106
-        height: 37
+        x: 114
+        y: 105
+        width: 297
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41a7bf5cf2a728249ad2328f5cae363a
+      spriteID: d37c383911848e94ca3af0ba5dabd181
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_FACE
+      name: Cherub_Mask_sheet_1
       rect:
         serializedVersion: 2
-        x: 548
-        y: 703
-        width: 273
-        height: 273
+        x: 624
+        y: 105
+        width: 300
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e7d7cfdb655291c4399e9db08bd38d31
+      spriteID: e9c82125d9b777f4983f70ad3eea73b6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_LEFT_SOMETHING
+      name: Cherub_Mask_sheet_2
       rect:
         serializedVersion: 2
-        x: 967
-        y: 774
-        width: 9
-        height: 224
+        x: 1137
+        y: 105
+        width: 300
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32dd7c78921d56942898cec0ac150e97
+      spriteID: 721f237adf2aa4a4e821c5d55bc39732
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_RIGHT_SOMETHIGN
+      name: Cherub_Mask_sheet_3
       rect:
         serializedVersion: 2
-        x: 986
-        y: 774
-        width: 9
-        height: 224
+        x: 1650
+        y: 105
+        width: 297
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 163391f09c00c5d4599f84949d38961d
+      spriteID: 75eaf0c6e79f51348a4a17b5b070dd04
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_OUTER_RING
+      name: Cherub_Mask_sheet_4
       rect:
         serializedVersion: 2
-        x: 21
-        y: 382
-        width: 384
-        height: 384
+        x: 2160
+        y: 105
+        width: 300
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23d6cf4ea28a06b4a81bdbcac95e6ce4
+      spriteID: 21e1b19b8d13492439b658a7b35e2a41
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_WING_3
+      name: Cherub_Mask_sheet_5
       rect:
         serializedVersion: 2
-        x: 627
-        y: 594
-        width: 333
-        height: 83
-      alignment: 9
-      pivot: {x: 1.0031533, y: 0.04137816}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ff264fbceaedadd4ab1f834bb007bcf4
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CHERUB_BULLET_INVU
-      rect:
-        serializedVersion: 2
-        x: 735
-        y: 506
-        width: 43
-        height: 43
+        x: 2673
+        y: 105
+        width: 300
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 994a4a395d248244494945ece0a6ab46
+      spriteID: cb84643ffb19ccc43957daa3b873b392
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_BULLET
+      name: Cherub_Mask_sheet_6
       rect:
         serializedVersion: 2
-        x: 800
-        y: 512
-        width: 27
-        height: 27
+        x: 3183
+        y: 105
+        width: 300
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 796a9dbdeff240c4ca04472fdd8e18ba
+      spriteID: e22d51248ecfda94fa58c748f80cc390
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_BULLET_THIN
+      name: Cherub_Mask_sheet_7
       rect:
         serializedVersion: 2
-        x: 854
-        y: 494
-        width: 12
-        height: 67
+        x: 3696
+        y: 105
+        width: 300
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2ec4269efd699e46ac0efa793bdf803
+      spriteID: 5783adb570ea1e04aa09d82a128f2ed6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_INNER_RING
+      name: Cherub_Mask_sheet_8
       rect:
         serializedVersion: 2
-        x: 35
-        y: 30
-        width: 295
-        height: 295
+        x: 4209
+        y: 105
+        width: 300
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bedc55ff1f994344b6a8b1c5ecddd36
+      spriteID: b71ef7a083a30a6438262050ef7f4282
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_MOUTH_MIDDLE
+      name: Cherub_Mask_sheet_9
       rect:
         serializedVersion: 2
-        x: 413
-        y: 213
-        width: 230
-        height: 154
-      alignment: 9
-      pivot: {x: 0.5, y: 0.9075702}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4b3e3a0d3399ee24c8e8cc1dee47303f
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CHERUB_MOUTH_UP
-      rect:
-        serializedVersion: 2
-        x: 710
-        y: 290
-        width: 229
-        height: 74
+        x: 4719
+        y: 105
+        width: 300
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de7b7572a5f81d8499abc45159ca4bc5
+      spriteID: a6b50d713f034e94594175510207f3c1
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CHERUB_WING_1
+      name: Cherub_Mask_sheet_10
       rect:
         serializedVersion: 2
-        x: 394
-        y: 69
-        width: 274
-        height: 113
-      alignment: 9
-      pivot: {x: 0.9629764, y: 0.043204114}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 09253a88b8094d947a572eba4a1d3c5c
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CHERUB_MOUTH_DOWN
-      rect:
-        serializedVersion: 2
-        x: 707
-        y: 147
-        width: 231
-        height: 81
+        x: 5232
+        y: 105
+        width: 300
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca400bc1b4cf5ca4b95449a731e396f1
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CHERUB_WING_2
-      rect:
-        serializedVersion: 2
-        x: 703
-        y: 12
-        width: 321
-        height: 49
-      alignment: 9
-      pivot: {x: 0.8504498, y: 0.2601406}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 28c50d0c1e77a924789d0598d430b64a
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CHERUB_SPARK
-      rect:
-        serializedVersion: 2
-        x: 478
-        y: 407
-        width: 79
-        height: 298
-      alignment: 9
-      pivot: {x: 0.5089898, y: 0.99175006}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 83d25628960e2aa4ba677c50653ff3fc
+      spriteID: d9d7004e8037b8045913a1e9ecba5a85
       vertices: []
       indices: 
       edges: []
@@ -455,7 +350,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: b5a3e529f55dacb459ba18ea5d35700d
+    spriteID: b7de3996c2a8f654cb9c17cf2e251dfe
     vertices: []
     indices: 
     edges: []

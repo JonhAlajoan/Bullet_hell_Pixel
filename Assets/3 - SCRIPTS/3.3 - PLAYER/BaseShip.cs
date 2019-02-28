@@ -25,7 +25,7 @@ public abstract class BaseShip : MonoBehaviour {
 	protected float xAxis;
 	protected float yAxis;
 
-    Transform ObjectLookAtMouse;
+   
     
     CinemachineVirtualCamera vCam;
 
@@ -49,10 +49,10 @@ public abstract class BaseShip : MonoBehaviour {
 
 		mainCamera = Camera.main;
 		animatorMainCamera = mainCamera.GetComponent<Animator>();
-        ObjectLookAtMouse = GameObject.Find("ObjectLookAtMouse").GetComponent<Transform>();
+
 		
 		manager = GameObject.FindGameObjectWithTag("ManagerScene").GetComponent<managerOfScene>();
-		vCam = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>();
+		vCam = GameObject.Find("Combate").GetComponent<CinemachineVirtualCamera>();
 
 
 
@@ -86,7 +86,7 @@ public abstract class BaseShip : MonoBehaviour {
 	
 	}
 
-	private void animatorStateOfCombat(bool isCombat, float actualTime)
+	private void animatorStateOfCombat(bool isCombat)
 	{
 		animatorShip.SetBool("isOnCombat", isOnCombat);
 		animatorMainCamera.SetBool("isOnCombat", isOnCombat);
@@ -102,7 +102,7 @@ public abstract class BaseShip : MonoBehaviour {
 				TrashMan.spawn("BulletMainShip", Muzzles[i].position, Muzzles[i].rotation);
 			}
 			nextShotTime = Time.time + msBetweenShots / 1000;
-			Shaker(1f,1f,0.1f);
+			Shaker(1f,1f,0.3f);
 
 		}
 	}
@@ -110,7 +110,7 @@ public abstract class BaseShip : MonoBehaviour {
 	public void Shaker(float amplitude, float frequency, float duration)
 	{
 		StopAllCoroutines();
-		StartCoroutine(CameraShaker(amplitude, frequency, 0.5f));
+		StartCoroutine(CameraShaker(amplitude, frequency, duration));
 	}
 
 	public IEnumerator CameraShaker(float amplitude, float frequency, float duration)
@@ -148,9 +148,7 @@ public abstract class BaseShip : MonoBehaviour {
 		isOnCombat = manager.stateOfCombat;
 		TypeOfController = manager.typeOfController;
 
-		float actualLookAheadTime = vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime;
-
-		animatorStateOfCombat(isOnCombat, actualLookAheadTime);
+		animatorStateOfCombat(isOnCombat);
 
 		if (isOnCombat == true && TypeOfController == "Controller")
 		{

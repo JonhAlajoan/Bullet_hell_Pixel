@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class managerOfScene : MonoBehaviour {
+[RequireComponent(typeof(FixedTime))]
+public class managerOfScene : MonoBehaviour{
 
 	public bool stateOfCombat;
 	public string typeOfController;
@@ -13,14 +14,19 @@ public class managerOfScene : MonoBehaviour {
 	protected Animator animatorShip;
 	protected Animator animatorMainCamera;
 
-	CinemachineVirtualCamera vCam;
+	public GameObject VirtualCamera;
+
+	public int frameCount;
+
 
 	private void Start()
 	{
-		vCam = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>();
+		
 		mainCamera = Camera.main;
 		animatorMainCamera = mainCamera.GetComponent<Animator>();
 		animatorShip = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+		frameCount = FixedTime.fixedFrameCount;
+
 	}
 
 
@@ -30,27 +36,16 @@ public class managerOfScene : MonoBehaviour {
 
 		if (stateOfCombat == true)
 		{
-			//stateOfCombat = false;
-
-			vCam.m_Lens.OrthographicSize = 13f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime = 0f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneHeight = 1f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneWidth = 1f;
-
-			
+			VirtualCamera.SetActive(false);
 		}
 
 		if (stateOfCombat == false)
 		{
-			vCam.m_Lens.OrthographicSize = 8f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_LookaheadTime = 0f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneHeight = 0.113f;
-			vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_DeadZoneWidth = 0.075f;
-
+			VirtualCamera.SetActive(true);
 		}
 
 		animatorShip.SetBool("isOnCombat", stateOfCombat);
-		animatorMainCamera.SetBool("isOnCombat", stateOfCombat);
+		//animatorMainCamera.SetBool("isOnCombat", stateOfCombat);
 	}
 
 
@@ -64,6 +59,10 @@ public class managerOfScene : MonoBehaviour {
 		{
 			typeOfController = "Joystick";
 		}
+		
+
+		
+		
 
 
 		/*if (Input.GetButtonDown("Jump"))

@@ -38,12 +38,9 @@ public class TriggerSpawnBoss : MonoBehaviour {
 		{
 			manager.changeStateOfCombat(true);
 			Debug.Log("State of combat: " + manager.stateOfCombat);
+			TrashMan.despawn(gameObject);
 		}
-
-		if (collision.GetComponent<MainShipScript>() != null)
-		{
-			manager.changeStateOfCombat(true);
-			Debug.Log("State of combat: " + manager.stateOfCombat);
-		}
+		
+	
 	}
 }
