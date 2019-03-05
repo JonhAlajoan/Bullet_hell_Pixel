@@ -16,7 +16,8 @@ public class UbhShowcaseCtrl : MonoBehaviour
 
     void Start ()
     {
-        if (_InitialPoolBulletPrefab == null) {
+        if (_InitialPoolBulletPrefab == null)
+		{
             return;
         }
         // pooling bullet

@@ -3,49 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-[RequireComponent(typeof(FixedTime))]
-public class managerOfScene : MonoBehaviour{
+public class managerOfScene : MonoBehaviour
+{
 
-	public bool stateOfCombat;
+	
+	public bool stateOfCombat; //State of combat that'll be used by other classes to detemine if the ship is OnCombat
 	public string typeOfController;
 
-	Camera mainCamera;
+	protected Animator m_animatorShip; //Main animator of the ship	
 
-	protected Animator animatorShip;
-	protected Animator animatorMainCamera;
-
-	public GameObject VirtualCamera;
-
-	public int frameCount;
-
+	protected GameObject m_virtualCamera; //Virtual camera from cinemachine
 
 	private void Start()
 	{
-		
-		mainCamera = Camera.main;
-		animatorMainCamera = mainCamera.GetComponent<Animator>();
-		animatorShip = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
-		frameCount = FixedTime.fixedFrameCount;
+		m_animatorShip = FindObjectOfType<BaseShip>().GetComponent<Animator>();
+		m_virtualCamera = FindObjectOfType<CinemachineVirtualCamera>().gameObject;
 
+		if (m_virtualCamera)
+		{
+			if (m_virtualCamera.name == "CameraExploring")
+			{
+				Debug.Log("The virtual camera is correct");
+			}
+			else
+			{
+				GameObject.FindGameObjectWithTag("CinemachineController").GetComponent<GameObject>();
+			}
+		}
+			
+			
 	}
 
-
+	//This method change the state of combat whenever called (normally from a trigger)
 	public void changeStateOfCombat(bool _stateOfCombat)
 	{
 		stateOfCombat = _stateOfCombat;
 
+		//The virtual camera is the one with highest priority (normally the explorationCamera), if it gets deactivated the combat one assumes
 		if (stateOfCombat == true)
 		{
-			VirtualCamera.SetActive(false);
+			m_virtualCamera.SetActive(false);
 		}
 
 		if (stateOfCombat == false)
 		{
-			VirtualCamera.SetActive(true);
+			m_virtualCamera.SetActive(true);
 		}
 
-		animatorShip.SetBool("isOnCombat", stateOfCombat);
-		//animatorMainCamera.SetBool("isOnCombat", stateOfCombat);
+		m_animatorShip.SetBool("isOnCombat", stateOfCombat);
 	}
 
 
@@ -60,20 +65,5 @@ public class managerOfScene : MonoBehaviour{
 			typeOfController = "Joystick";
 		}
 		
-
-		
-		
-
-
-		/*if (Input.GetButtonDown("Jump"))
-		{
-			TypeOfController = "Keyboard";
-			ChangeStateOfCombat(isOnCombat, actualLookAheadTime);
-		}
-
-		if (Input.GetButtonDown("Y button"))
-		{
-			Shoot();
-		}*/
 	}
 }

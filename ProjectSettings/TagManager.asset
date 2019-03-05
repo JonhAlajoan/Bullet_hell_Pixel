@@ -9,6 +9,7 @@ TagManager:
   - ManagerScene
   - Boss
   - HealthBar
+  - Invulnerable
   layers:
   - Default
   - TransparentFX

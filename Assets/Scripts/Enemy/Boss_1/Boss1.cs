@@ -4,23 +4,54 @@ using UnityEngine;
 
 public class Boss1 : BaseBoss {
 
-	private void Start()
+	[SerializeField]
+	protected UbhShotCtrl[] m_shotControl;
+	States m_state;
+	public override void Start()
 	{
-        base.Initialization(1000, 5, 100, gameObject.GetComponent<Animator>());
+		base.Start();
+		Initialization(1000, 5, 5000, gameObject.GetComponent<Animator>());
+		m_shotControl = GetComponentsInChildren<UbhShotCtrl>();
 	}
 
-	public override void Shoot()
+	public override void Update()
 	{
-		
-		if (Time.time > nextShotTime)
+		base.Update();
+
+		if(healthBarImage.fillAmount == 0.75f)
 		{
-			for (int i = 0; i < Muzzles.Length; i++)
-			{
-				//TrashMan.spawn("Bullet_1_Boss_1", Muzzles[i].position, Muzzles[i].rotation);
-				//Debug.Log("i: " + i + "  " + Muzzles[i].rotation);
-			}
-			nextShotTime = Time.time + msBetweenShots / 1000;
+			isInvulnerable = true;
+			m_state = States.PHASE2;
+			ChangePhase(m_state);
 		}
+
+		if (healthBarImage.fillAmount == 0.5f)
+		{
+			isInvulnerable = true;
+			m_state = States.PHASE3;
+			ChangePhase(m_state);
+		}
+
+	}
+
+	public override void Shoot(States _actualState)
+	{
+		switch(_actualState)
+		{
+			case States.PHASE1:
+			{
+					if (Time.time > m_nextShotTime)
+					{
+						for (int i = 0; i < m_shotControl.Length; i++)
+						{
+							m_shotControl[i].StartShotRoutine();
+						}
+						m_nextShotTime = Time.time + m_msBetweenShots / 1000;
+					}
+				}
+			break;
+		}
+		
 	}
 
 }

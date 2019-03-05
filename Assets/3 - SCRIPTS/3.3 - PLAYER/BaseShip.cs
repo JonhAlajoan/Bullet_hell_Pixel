@@ -4,175 +4,168 @@ using UnityEngine;
 using UnityEngine.PostProcessing;
 using Cinemachine;
 using System;
-public abstract class BaseShip : MonoBehaviour {
+public abstract class BaseShip : MonoBehaviour
+{
 
-	protected Camera mainCamera;
-	protected PostProcessingProfile postProcessingProfile;
+	/*-----------------------------------------Base code for future ships of the game--------------------------------
+	 * - The purpose of this code is to serve as the base for the ships, with all the main functions (death, shoot)
+	 */
 
-	protected Animator animatorShip;
-	protected Animator animatorMainCamera;
+	//The main camera of the scene
+	protected Camera m_mainCamera;
 
+	//Animator of the ship that will be used to set the bool isOnCombat to change between combat mode or exploring mode
+	protected Animator m_animatorShip;
+
+	//The player rigidBody, that'll be used for Physics.
 	protected Rigidbody2D playerRigidBody;
+
+	//The player controller that'll be used for controlling
 	CharacterController controllerShip;
 	
-	protected bool isOnCombat;
+	//This variable will be used to determine in conjuction with the managerOfScene if the player is on combat
+	protected bool m_isOnCombat; 
+
+	//The position of the muzzles for using as the initial position of the bullet
 	public Transform[] Muzzles;
 
-	protected float nextShotTime;
-	protected float msBetweenShots;
-	protected float health;
-	protected float speed;
-	protected float xAxis;
-	protected float yAxis;
 
-   
-    
-    CinemachineVirtualCamera vCam;
+	protected float m_nextShotTime;  //The time of when the next shot will be available
+	protected float m_msBetweenShots; // the milliseconds between shots
+	protected float m_health; //Health of the ship
+	protected float m_speed; //Movespeed of the ship
+	protected float m_xAxis; //Horizontal Axis
+	protected float m_yAxis; //Vertical Axis
 
-    protected string TypeOfController;
+	//Type of controller that'll be used ("Controller") or ("Keyboard")
+    protected string m_TypeOfController;
 
-    float heading;
+	//Direction where the mouse is pointed so it can turn in the animator
     Vector2 directionMouse;
 
-	Transform playerPos;
-
+	//Manager of the scene
 	managerOfScene manager;
 
-	public void Initialization(float hp, float speedOfShip, float MsBetweenShots, Animator animatorOfShip, Rigidbody2D rigidBody)
+	//Constructor of the cameraController Class
+	protected CameraController m_cameraController;
+
+	//This Initialization function, sets the variables for the parameters, normally this will be used on the start function 
+	public void Initialization(float _hp, float _speedOfShip, float _MsBetweenShots, Animator _animatorOfShip, Rigidbody2D _rigidBody)
 	{
-		this.health = hp;
-		this.speed = speedOfShip;
-		this.msBetweenShots = MsBetweenShots;
-		this.animatorShip = animatorOfShip;
-		this.playerRigidBody = rigidBody;
 
+		m_health = _hp;
+		m_speed = _speedOfShip;
+		m_msBetweenShots = _MsBetweenShots;
+		m_animatorShip = _animatorOfShip;
+		playerRigidBody = _rigidBody;
 
-		mainCamera = Camera.main;
-		animatorMainCamera = mainCamera.GetComponent<Animator>();
+		//Getting the main camera of the scene
+		m_mainCamera = Camera.main;
 
-		
-		manager = GameObject.FindGameObjectWithTag("ManagerScene").GetComponent<managerOfScene>();
-		vCam = GameObject.Find("Combate").GetComponent<CinemachineVirtualCamera>();
-
-
-
-
-
-
+		//Finding the objects that have a cameraController and the ManagerOfScene
+		manager = FindObjectOfType<managerOfScene>();
+		m_cameraController = FindObjectOfType<CameraController>();
 	}
 
+	/*This function will get the mouse position vertically and horizontally then normalize it so the variable directionMouse 
+	  can be used as a float for the animatorShip as a parameter for rotating the ship*/
     public void faceMouse()
     {
-        Vector3 mousePosition = Input.mousePosition;
-         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+		//Gets the mouse position as a point
+        Vector3 _mousePosition = Input.mousePosition;
+         _mousePosition = Camera.main.ScreenToWorldPoint(_mousePosition);
 
-        Vector2 direction = new Vector2(
-            mousePosition.x - transform.position.x,
-            mousePosition.y - transform.position.y
+		//The direction that the ship is, based on the mouse and object position
+        Vector2 _direction = new Vector2(
+            _mousePosition.x - transform.position.x,
+            _mousePosition.y - transform.position.y
             );
-        directionMouse = direction.normalized;
+		
+		//The direction being normalized (values being thrown as 1)
+        directionMouse = _direction.normalized;
     }
 
-	public void CameraClamping()
+	//This function makes the animator of ship assume stance of exploration or combat based on the isCombat variable
+	private void AnimatorStateOfCombat(bool isCombat)
 	{
-		/*Vector3 cameraEdges = Camera.main.WorldToViewportPoint(transform.position);
-
-		Vector3 posInitial =  new Vector3(transform.position.x,transform.position.y,0);
-
-		Vector3 posFinal = new Vector3(cameraEdges.x, cameraEdges.y, 0);
-
-		transform.position = new Vector3(Mathf.Clamp(transform.position.x, posFinal.x, posInitial.x), Mathf.Clamp(transform.position.y, posInitial.y, posFinal.y), 0);
-		*/
-	
+		m_animatorShip.SetBool("isOnCombat", m_isOnCombat);
 	}
 
-	private void animatorStateOfCombat(bool isCombat)
+	//This method makes the player shoot based if the current time passed is higher than the nextShotTime
+	public virtual void Shoot()
 	{
-		animatorShip.SetBool("isOnCombat", isOnCombat);
-		animatorMainCamera.SetBool("isOnCombat", isOnCombat);
-	}
-
-	public void Shoot()
-	{
-		if (Time.time > nextShotTime)
+		//If actual time is higher than the nextShotTime
+		if (Time.time > m_nextShotTime)
 		{
-			
+			//Spawn the bullets from the muzzles position
 			for (int i = 0; i < Muzzles.Length; i++)
 			{
 				TrashMan.spawn("BulletMainShip", Muzzles[i].position, Muzzles[i].rotation);
 			}
-			nextShotTime = Time.time + msBetweenShots / 1000;
-			Shaker(1f,1f,0.3f);
 
+			//Next shot ready will be actual time + milisseconds between shots divided by 1000
+			m_nextShotTime = Time.time + m_msBetweenShots / 1000;
+
+			//This is the camera shaker being used
+			m_cameraController.Shaker(1f,1f,0.3f);
 		}
 	}
 
-	public void Shaker(float amplitude, float frequency, float duration)
-	{
-		StopAllCoroutines();
-		StartCoroutine(CameraShaker(amplitude, frequency, duration));
-	}
-
-	public IEnumerator CameraShaker(float amplitude, float frequency, float duration)
-	{
-		vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = amplitude;
-		vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = frequency;
-		yield return new WaitForSeconds(duration);
-		vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f;
-		vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 0f;
-
-	}
-
+	//FixedUpdate focused on the movement of the player
     private void FixedUpdate()
 	{
-		xAxis = Input.GetAxis("Horizontal");
-		yAxis = Input.GetAxis("Vertical");
+		m_xAxis = Input.GetAxis("Horizontal");
+		m_yAxis = Input.GetAxis("Vertical");
 
-		animatorShip.SetFloat("yAxis", yAxis);
-		animatorShip.SetFloat("xAxis", xAxis);
+		m_animatorShip.SetFloat("yAxis", m_yAxis);
+		m_animatorShip.SetFloat("xAxis", m_xAxis);
 		
-		Vector2 movement2d = new Vector2(xAxis, yAxis);
+		Vector2 _movement2d = new Vector2(m_xAxis, m_yAxis);
 
-		playerRigidBody.AddForce(movement2d * speed);
-
-		if(isOnCombat == true)
-		{
-			CameraClamping();
-		}
-			
+		//Using the physics for movement
+		transform.Translate(_movement2d * (m_speed * Time.deltaTime), Space.World);
 		
 	}
+
 
 	void Update()
 	{
-		isOnCombat = manager.stateOfCombat;
-		TypeOfController = manager.typeOfController;
 
-		animatorStateOfCombat(isOnCombat);
+		//Getting the state of the combat from the manager
+		m_isOnCombat = manager.stateOfCombat;
 
-		if (isOnCombat == true && TypeOfController == "Controller")
+		//Getting the type of controller from the manager
+		m_TypeOfController = manager.typeOfController;
+
+		//Calling the AnimatorStateOfCombat Method
+		AnimatorStateOfCombat(m_isOnCombat);
+
+		//Control that'll be called if the typeOfController is a joystick
+		if (m_isOnCombat == true && m_TypeOfController == "Controller")
 		{
-			float xAxisRightStick;
-			float yAxisRightStick;
+			//Getting the Axis from the right stick of the controller that'll be used as que guide for shooting
+			float _xAxisRightStick;
+			float _yAxisRightStick;
+			_xAxisRightStick = Input.GetAxis("JRightHorizontal");
+			_yAxisRightStick = Input.GetAxis("JRightVertical");
 
-			xAxisRightStick = Input.GetAxis("JRightHorizontal");
-			yAxisRightStick = Input.GetAxis("JRightVertical");
-
-			animatorShip.SetFloat("xAxisRightStick", xAxisRightStick);
-			animatorShip.SetFloat("yAxisRightStick", yAxisRightStick);
+			//Setting the animator for the right stick
+			m_animatorShip.SetFloat("xAxisRightStick", _xAxisRightStick);
+			m_animatorShip.SetFloat("yAxisRightStick", _yAxisRightStick);
 			
-			if (xAxisRightStick == 1 || xAxisRightStick == -1 || yAxisRightStick == 1 || yAxisRightStick == -1)
+			if (_xAxisRightStick == 1 || _xAxisRightStick == -1 || _yAxisRightStick == 1 || _yAxisRightStick == -1)
 			{
 				Shoot();
 			}
 		}
 
-        if(isOnCombat == true && TypeOfController == "Keyboard")
+		//Control that'll be called if the TypeOfController is a Keyboard
+        if(m_isOnCombat == true && m_TypeOfController == "Keyboard")
         {
             faceMouse();
-          
-            animatorShip.SetFloat("xAxisRightStick", directionMouse.x);
-            animatorShip.SetFloat("yAxisRightStick", directionMouse.y);
+
+			m_animatorShip.SetFloat("xAxisRightStick", directionMouse.x);
+			m_animatorShip.SetFloat("yAxisRightStick", directionMouse.y);
           
             if (Input.GetMouseButton(0))
             {

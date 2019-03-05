@@ -8,8 +8,7 @@ public class Boss1Projectile1 : BaseEnemyProjectile {
 	void OnEnable ()
 	{
 		base.Initialize(3, 1, 3, 0, 10);
-		homingTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-		transform.up = homingTarget.position - transform.position;
+		
 	}
 
 	public override void Update()
@@ -18,7 +17,7 @@ public class Boss1Projectile1 : BaseEnemyProjectile {
 			count += 1 * Time.deltaTime;
 
 
-			homingTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+			//homingTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
 			if(count > 1)
 			{
@@ -28,13 +27,10 @@ public class Boss1Projectile1 : BaseEnemyProjectile {
 			if (count >= 5)
 			{
 				transform.rotation = new Quaternion(0, 0, 0, 0);
-				TrashMan.despawn(gameObject);
+				UbhObjectPool.Instance.ReleaseGameObject(transform.parent.gameObject);
 				count = 0;
-				accelSpeed = 0;
 			}
 
-			float moveDistance = speed * Time.deltaTime;
-			transform.Translate(Vector2.up * moveDistance);
 		
 	}
 

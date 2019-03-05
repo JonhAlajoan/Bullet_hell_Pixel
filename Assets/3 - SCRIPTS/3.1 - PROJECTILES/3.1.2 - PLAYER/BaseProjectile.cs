@@ -16,17 +16,27 @@ public class BaseProjectile : MonoBehaviour {
 	void OnEnabled()
 	{
 		count = 0;
+
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 
-		if (collision.gameObject.GetComponent<BaseEnemyProjectile>() != null)
+		if (collision.gameObject.GetComponentInChildren<BaseEnemyProjectile>() != null)
 		{
-			TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
-			count = 0;
-			TrashMan.despawn(collision.gameObject);
-			TrashMan.despawn(gameObject);
+		
+			if(collision.gameObject.tag == "Invulnerable")
+			{
+				count = 0;
+			}
+			else
+			{
+				count = 0;
+				TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
+				UbhObjectPool.Instance.ReleaseGameObject(collision.transform.parent.gameObject);
+			}
+			TrashMan.despawn(gameObject);	
+			
 		}
 
 		if (collision.gameObject.GetComponent<BaseBoss>() != null)
@@ -50,11 +60,12 @@ public class BaseProjectile : MonoBehaviour {
 	{
 		count += 1 * Time.deltaTime;
 
-		if (count >= 5)
+		if (count >= 2)
 		{
+			count = 0;
 			transform.rotation = new Quaternion(0, 0, 0, 0);
 			TrashMan.despawn(gameObject);
-			count = 0;
+			
 		}
 		float moveDistance = speed * Time.deltaTime;
 		transform.Translate(Vector2.up* moveDistance);

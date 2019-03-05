@@ -11,7 +11,6 @@ public abstract class BaseEnemyProjectile : MonoBehaviour {
 	float skinWidth = .1f;
 	public float count;
 	Transform playerPos;
-
 	bool LockOn;
 	public float angle;
 	public float accelSpeed;
@@ -25,6 +24,7 @@ public abstract class BaseEnemyProjectile : MonoBehaviour {
 		this.lifetime = lifetime;
 		this.angle = angle;
 		this.accelSpeed = accelSpeed;
+
 	}
 
 	void Start()
