@@ -12,22 +12,21 @@ public class Boss1 : BaseBoss {
 		base.Start();
 		Initialization(1000, 5, 5000, gameObject.GetComponent<Animator>());
 		m_shotControl = GetComponentsInChildren<UbhShotCtrl>();
+		
 	}
-
+	
 	public override void Update()
 	{
 		base.Update();
 
-		if(healthBarImage.fillAmount == 0.75f)
+		if(healthBarImage.fillAmount == 0.7f)
 		{
-			isInvulnerable = true;
 			m_state = States.PHASE2;
 			ChangePhase(m_state);
 		}
 
 		if (healthBarImage.fillAmount == 0.5f)
 		{
-			isInvulnerable = true;
 			m_state = States.PHASE3;
 			ChangePhase(m_state);
 		}

@@ -74,19 +74,19 @@ public abstract class BaseBoss : MonoBehaviour
 		switch(m_stateBaseClass)
 		{
 			case States.PHASE1:
-				m_animatorBoss.SetFloat("PHASE", 1);
+				m_animatorBoss.SetInteger("PHASE", 1);
 			break;
 
 			case States.PHASE2:
-				m_animatorBoss.SetFloat("PHASE", 2);
+				m_animatorBoss.SetInteger("PHASE", 2);
 			break;
 
 			case States.PHASE3:
-				m_animatorBoss.SetFloat("PHASE", 3);
+				m_animatorBoss.SetInteger("PHASE", 3);
 			break;
 
 			case States.PHASE4:
-				m_animatorBoss.SetFloat("PHASE", 4);
+				m_animatorBoss.SetInteger("PHASE", 4);
 			break;
 		}
 		
@@ -126,12 +126,14 @@ public abstract class BaseBoss : MonoBehaviour
 			if (healthBarImage.fillAmount == 1)
 			{
 				isInvulnerable = false;
+				m_animatorBoss.SetTrigger("FIGHT_START");
+				m_stateBaseClass = States.PHASE1;
+				ChangePhase(m_stateBaseClass);
 			}
 			
 		}
 		if (isInvulnerable == false)
-		{
-			m_animatorBoss.SetTrigger("FIGHT_START");
+		{			
 			healthBarImage.fillAmount = HealthBarModifier(m_health, m_startingHealth);
 		}
 
