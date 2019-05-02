@@ -7,7 +7,7 @@ public class Corrumpo : BaseEnemy {
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
-		base.Initialization(20, 30, 100, gameObject.GetComponent<Animator>());
+		base.Initialization(500, 30, 100, gameObject.GetComponent<Animator>());
 	}
 	
 	// Update is called once per frame
@@ -16,7 +16,9 @@ public class Corrumpo : BaseEnemy {
 		
 	}
 
-	public override void Shoot(States _actualState)
+	public override void Shoot(string _typeOfShot)
 	{
+		TrashMan.spawn(_typeOfShot, transform.position, transform.rotation);
+		Debug.Log("Shooting corrumpo: " + _typeOfShot);
 	}
 }

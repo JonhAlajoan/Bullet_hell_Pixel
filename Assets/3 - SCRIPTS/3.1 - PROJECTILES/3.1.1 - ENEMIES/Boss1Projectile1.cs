@@ -7,17 +7,13 @@ public class Boss1Projectile1 : BaseEnemyProjectile {
 	// Use this for initialization
 	void OnEnable ()
 	{
-		base.Initialize(3, 1, 3, 0, 10);
-		
+		base.Initialize(3, 1, 3, 0, 10);		
 	}
 
 	public override void Update()
 	{
 			
 			count += 1 * Time.deltaTime;
-
-
-			//homingTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
 			if(count > 1)
 			{

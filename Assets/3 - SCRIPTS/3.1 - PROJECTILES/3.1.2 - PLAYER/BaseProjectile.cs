@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class BaseProjectile : MonoBehaviour {
 
-	float speed = 30;
+	float speed = 30f;
 	float damage = 1f;
 	public bool firstHit = true;
 	float lifetime = 3;
-	float skinWidth = .1f;
 	float count;
 	
 
@@ -47,8 +46,17 @@ public class BaseProjectile : MonoBehaviour {
 			count = 0;
 			TrashMan.despawn(gameObject);
 		}
-		
-		
+
+		if (collision.gameObject.GetComponent<BaseEnemy>() != null)
+		{
+			BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
+			enemy.TakeDamage(damage);
+			TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
+			count = 0;
+			TrashMan.despawn(gameObject);
+		}
+
+
 	}
 
 	public void SetSpeed(float newSpeed)

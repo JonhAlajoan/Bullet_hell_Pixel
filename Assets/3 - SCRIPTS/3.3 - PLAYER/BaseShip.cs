@@ -37,14 +37,21 @@ public abstract class BaseShip : MonoBehaviour
 	protected float m_xAxis; //Horizontal Axis
 	protected float m_yAxis; //Vertical Axis
 
+	protected float m_colourChangeDelay = 0.5f;
+	protected float m_currentDelay = 0f;
+	protected bool m_colourChangeCollision = false;
+
+	[SerializeField]
+	protected SpriteRenderer[] m_spritesShip;
+
 	//Type of controller that'll be used ("Controller") or ("Keyboard")
-    protected string m_TypeOfController;
+	protected string m_TypeOfController;
 
 	//Direction where the mouse is pointed so it can turn in the animator
     Vector2 directionMouse;
 
 	//Manager of the scene
-	managerOfScene manager;
+	protected managerOfScene m_manager;
 
 	//Constructor of the cameraController Class
 	protected CameraController m_cameraController;
@@ -63,7 +70,7 @@ public abstract class BaseShip : MonoBehaviour
 		m_mainCamera = Camera.main;
 
 		//Finding the objects that have a cameraController and the ManagerOfScene
-		manager = FindObjectOfType<managerOfScene>();
+		m_manager = FindObjectOfType<managerOfScene>();
 		m_cameraController = FindObjectOfType<CameraController>();
 	}
 
@@ -132,10 +139,10 @@ public abstract class BaseShip : MonoBehaviour
 	{
 
 		//Getting the state of the combat from the manager
-		m_isOnCombat = manager.stateOfCombat;
+		m_isOnCombat = m_manager.stateOfCombat;
 
 		//Getting the type of controller from the manager
-		m_TypeOfController = manager.typeOfController;
+		m_TypeOfController = m_manager.typeOfController;
 
 		//Calling the AnimatorStateOfCombat Method
 		AnimatorStateOfCombat(m_isOnCombat);
@@ -173,6 +180,53 @@ public abstract class BaseShip : MonoBehaviour
             }
         }
 
+		if (m_health <= 0)
+		{
+			die();
+		}
+		changeColor();
 
-    }
+
+	}
+
+	public void changeColor()
+	{
+		float _duration = 0.08f;
+		float _lerp = Mathf.PingPong(Time.time, _duration) / _duration;
+
+		if (m_colourChangeCollision)
+		{
+			foreach (SpriteRenderer spriteToBeModified in m_spritesShip)
+			{
+				spriteToBeModified.color = Color32.Lerp(new Color32(255, 255, 255, 255), new Color32(100, 100, 100, 255), _lerp);
+			}
+			if (Time.time > m_currentDelay)
+			{
+				foreach (SpriteRenderer spriteToBeModified in m_spritesShip)
+				{
+					spriteToBeModified.color = new Color32(255, 255, 255, 255);
+				}
+				m_colourChangeCollision = false;
+			}
+		}
+
+	}
+
+	public void TakeDamage(float _damageTaken)
+	{
+		
+			m_colourChangeCollision = true;
+			m_currentDelay = Time.time + m_colourChangeDelay;
+			m_health -= _damageTaken;
+		
+
+	}
+
+	public void die()
+	{
+		m_manager.changeStateOfCombat(false);
+		TrashMan.despawn(gameObject);
+	}
+
+
 }

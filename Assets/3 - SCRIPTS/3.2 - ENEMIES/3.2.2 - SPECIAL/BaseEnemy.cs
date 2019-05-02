@@ -58,19 +58,19 @@ public abstract class BaseEnemy : MonoBehaviour
 	}
 
 
-	/*public void die()
+	public void die()
 	{
-		m_manager.changeStateOfCombat(false);
+		//m_manager.changeStateOfCombat(false);
 		TrashMan.despawn(gameObject);
-	}*/
+	}
 
-	public abstract void Shoot(States _actualState);
+	public abstract void Shoot(string _typeOfBullets);
 
 	public virtual void Update()
 	{
 		if (m_health <= 0)
 		{
-		//	die();
+			die();
 		}
 		changeColor();
 
