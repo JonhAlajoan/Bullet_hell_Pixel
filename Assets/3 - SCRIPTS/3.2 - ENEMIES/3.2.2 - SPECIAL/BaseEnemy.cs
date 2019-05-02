@@ -4,15 +4,15 @@ using UnityEngine;
 
 public abstract class BaseEnemy : MonoBehaviour
 {
-
-	public enum States { ATTACKING, PATROLLING, SPAWNING }
-
 	protected float m_nextShotTime;
 	protected float m_msBetweenShots;
 	protected float m_startingHealth;
+	[SerializeField]
 	protected float m_health;
 	public float speedEnemy;
+
 	protected Animator m_animator;
+
 	protected Transform m_targetPlayer;
 
 	[SerializeField]
@@ -28,17 +28,13 @@ public abstract class BaseEnemy : MonoBehaviour
 
 	protected managerOfScene m_manager;
 
-	protected States m_stateBaseClass;
-
-	//[SerializeField]
-	//protected CircleCollider2D m_playerRangeDetector;
-
+	[SerializeField]
+	protected TextMesh m_text;
 
 	public virtual void Start()
 	{
-		m_stateBaseClass = States.SPAWNING;
-		m_manager = FindObjectOfType<managerOfScene>();
-		//m_playerRangeDetector.radius = 25f;
+		if(m_manager == null)
+			m_manager = FindObjectOfType<managerOfScene>();
 	}
 
 	public void Initialization(float _hp, float _speedOfEnemy, float _MsBetweenShots, Animator _animatorOfEnemy)
@@ -60,7 +56,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
 	public void die()
 	{
-		//m_manager.changeStateOfCombat(false);
 		TrashMan.despawn(gameObject);
 	}
 
@@ -73,9 +68,15 @@ public abstract class BaseEnemy : MonoBehaviour
 			die();
 		}
 		changeColor();
+		m_text.text = m_health.ToString();
+
 
 	}
 
+	public void resetHp()
+	{
+		m_health += m_startingHealth;
+	}
 
 	public void changeColor()
 	{

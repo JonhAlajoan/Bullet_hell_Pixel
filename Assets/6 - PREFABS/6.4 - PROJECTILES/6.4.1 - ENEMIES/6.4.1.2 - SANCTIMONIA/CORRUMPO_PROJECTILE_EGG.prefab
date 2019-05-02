@@ -44,6 +44,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1361559033482772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4987263402975464}
+  - component: {fileID: 114729193477363988}
+  m_Layer: 0
+  m_Name: CORRUMPO_SPIRAL_INVUL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1488617452992534
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,7 +84,7 @@ Transform:
   m_GameObject: {fileID: 1488617452992534}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children: []
   m_Father: {fileID: 4575904388068460}
   m_RootOrder: 0
@@ -85,6 +101,7 @@ Transform:
   m_Children:
   - {fileID: 4445660898766504}
   - {fileID: 4960527850971980}
+  - {fileID: 4987263402975464}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -100,6 +117,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4575904388068460}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4987263402975464
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1361559033482772}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4575904388068460}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114184871530245048
 MonoBehaviour:
@@ -119,7 +149,9 @@ MonoBehaviour:
   _AtRandom: 0
   _ShotList:
   - _ShotObj: {fileID: 114485544855805850}
-    _AfterDelay: 0.05
+    _AfterDelay: 0.1
+  - _ShotObj: {fileID: 114729193477363988}
+    _AfterDelay: 8
 --- !u!114 &114485544855805850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,13 +173,48 @@ MonoBehaviour:
   _PauseTime: 0.5
   _ResumeTime: 1
   _InitialPooling: 0
-  _UseAutoRelease: 0
-  _AutoReleaseTime: 10
+  _UseAutoRelease: 1
+  _AutoReleaseTime: 4
   _CallbackReceiver: {fileID: 0}
   _CallbackMethod: 
-  _StartAngle: 270
-  _ShiftAngle: 30
+  _StartAngle: 180
+  _ShiftAngle: 11
   _BetweenDelay: 0.05
+--- !u!114 &114729193477363988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1361559033482772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77c647d39dcc0fa4594a3202bf5b3d57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BulletPrefab: {fileID: 100000, guid: ea31c513011b8d5459730d7df30c4e53, type: 2}
+  _BulletNum: 10
+  _BulletSpeed: 2
+  _AccelerationSpeed: 1
+  _AccelerationTurn: 0
+  _UsePauseAndResume: 0
+  _PauseTime: 0
+  _ResumeTime: 0
+  _InitialPooling: 0
+  _UseAutoRelease: 1
+  _AutoReleaseTime: 5
+  _CallbackReceiver: {fileID: 0}
+  _CallbackMethod: 
+  _RandomCenterAngle: 180
+  _RandomRangeSize: 33
+  _RandomSpeedMin: 1
+  _RandomSpeedMax: 3
+  _RandomDelayMin: 0.01
+  _RandomDelayMax: 0.1
+  _EvenlyDistribute: 1
+  _SetTargetFromTag: 1
+  _TargetTagName: Player
+  _TargetTransform: {fileID: 0}
+  _Aiming: 0
 --- !u!114 &114771692520324286
 MonoBehaviour:
   m_ObjectHideFlags: 1
