@@ -69,8 +69,6 @@ public abstract class BaseEnemy : MonoBehaviour
 		}
 		changeColor();
 		m_text.text = m_health.ToString();
-
-
 	}
 
 	public void resetHp()
