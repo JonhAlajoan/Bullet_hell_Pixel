@@ -12,7 +12,7 @@ public class CorrumpoEggProjectile : BaseEnemyProjectile {
 	{
 		base.Initialize(Random.Range(5,10), 12, 8, 0, 1);
 		m_shotControl = GetComponent<UbhShotCtrl>();
-		m_msBetweenShots = 200;
+		m_msBetweenShots = 6000;
 	}
 
 	public void Shoot()

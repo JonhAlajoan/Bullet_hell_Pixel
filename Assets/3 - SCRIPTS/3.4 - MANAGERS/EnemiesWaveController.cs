@@ -21,6 +21,7 @@ public class EnemiesWaveController : MonoBehaviour {
 		if (m_enemiesInChildren <= 0)
 		{
 			m_sceneManager.changeStateOfCombat(false);
+			TrashMan.despawn(gameObject);
 		}
 	}
 }

@@ -96,7 +96,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1114667190011702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -27.313744, y: -26.201485, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4445660898766504}
@@ -143,15 +143,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _AxisMove: 0
-  _StartOnAwake: 1
+  _StartOnAwake: 0
   _StartOnAwakeDelay: 1
-  _Loop: 1
+  _Loop: 0
   _AtRandom: 0
   _ShotList:
   - _ShotObj: {fileID: 114485544855805850}
     _AfterDelay: 0.1
   - _ShotObj: {fileID: 114729193477363988}
-    _AfterDelay: 8
+    _AfterDelay: 0.1
 --- !u!114 &114485544855805850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,14 +165,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _BulletPrefab: {fileID: 1644808693134854, guid: 879488e7358816349b2b68e65213c2af,
     type: 2}
-  _BulletNum: 200
+  _BulletNum: 50
   _BulletSpeed: 1
   _AccelerationSpeed: 2
   _AccelerationTurn: 2
   _UsePauseAndResume: 0
   _PauseTime: 0.5
   _ResumeTime: 1
-  _InitialPooling: 0
+  _InitialPooling: 1
   _UseAutoRelease: 1
   _AutoReleaseTime: 4
   _CallbackReceiver: {fileID: 0}
@@ -199,7 +199,7 @@ MonoBehaviour:
   _UsePauseAndResume: 0
   _PauseTime: 0
   _ResumeTime: 0
-  _InitialPooling: 0
+  _InitialPooling: 1
   _UseAutoRelease: 1
   _AutoReleaseTime: 5
   _CallbackReceiver: {fileID: 0}

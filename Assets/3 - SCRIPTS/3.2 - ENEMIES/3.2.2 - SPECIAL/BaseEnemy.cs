@@ -71,9 +71,24 @@ public abstract class BaseEnemy : MonoBehaviour
 		m_text.text = m_health.ToString();
 	}
 
+	public void ContegoHeal(float _hpRecovered)
+	{
+		if(gameObject.name == "CONTEGO_SHIELD")
+		{
+			m_health += _hpRecovered;
+		}
+
+		if (m_health + _hpRecovered > m_startingHealth)
+			m_health = m_startingHealth;
+		else
+			m_health += _hpRecovered;
+			
+	}
+
 	public void resetHp()
 	{
 		m_health += m_startingHealth;
+		m_startingHealth = m_health;
 	}
 
 	public void changeColor()

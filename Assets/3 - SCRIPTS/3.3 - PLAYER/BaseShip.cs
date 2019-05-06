@@ -56,6 +56,14 @@ public abstract class BaseShip : MonoBehaviour
 	//Constructor of the cameraController Class
 	protected CameraController m_cameraController;
 
+	protected ShipRadar m_radarShip;
+
+	protected ParticleSystem m_particleRadar;
+
+	protected float m_count;
+
+	protected bool m_isOnRadar;
+
 	//This Initialization function, sets the variables for the parameters, normally this will be used on the start function 
 	public void Initialization(float _hp, float _speedOfShip, float _MsBetweenShots, Animator _animatorOfShip, Rigidbody2D _rigidBody)
 	{
@@ -72,6 +80,8 @@ public abstract class BaseShip : MonoBehaviour
 		//Finding the objects that have a cameraController and the ManagerOfScene
 		m_manager = FindObjectOfType<managerOfScene>();
 		m_cameraController = FindObjectOfType<CameraController>();
+		m_particleRadar = transform.FindInChildren("RADAR").GetComponent<ParticleSystem>();
+		m_isOnRadar = false;
 	}
 
 	/*This function will get the mouse position vertically and horizontally then normalize it so the variable directionMouse 
@@ -121,23 +131,27 @@ public abstract class BaseShip : MonoBehaviour
 	//FixedUpdate focused on the movement of the player
     private void FixedUpdate()
 	{
-		m_xAxis = Input.GetAxis("Horizontal");
-		m_yAxis = Input.GetAxis("Vertical");
+			m_animatorShip.SetFloat("yAxis", m_yAxis);
+			m_animatorShip.SetFloat("xAxis", m_xAxis);
 
-		m_animatorShip.SetFloat("yAxis", m_yAxis);
-		m_animatorShip.SetFloat("xAxis", m_xAxis);
-		
-		Vector2 _movement2d = new Vector2(m_xAxis, m_yAxis);
+			m_xAxis = Input.GetAxis("Horizontal");
+			m_yAxis = Input.GetAxis("Vertical");
 
-		//Using the physics for movement
-		transform.Translate(_movement2d * (m_speed * Time.deltaTime), Space.World);
-		
+		if (m_isOnRadar == false)
+		{
+			Vector2 _movement2d = new Vector2(m_xAxis, m_yAxis);
+			//Using the physics for movement
+			transform.Translate(_movement2d * (m_speed * Time.deltaTime), Space.World);
+		}
+		else
+			return;
 	}
 
 
 	void Update()
 	{
 
+		m_count += 1 * Time.deltaTime;
 		//Getting the state of the combat from the manager
 		m_isOnCombat = m_manager.stateOfCombat;
 
@@ -146,6 +160,25 @@ public abstract class BaseShip : MonoBehaviour
 
 		//Calling the AnimatorStateOfCombat Method
 		AnimatorStateOfCombat(m_isOnCombat);
+
+		if(m_count >= 8)
+		{
+			if (Input.GetKeyDown(KeyCode.LeftShift))
+			{
+				if (!m_particleRadar.isPlaying)
+					m_particleRadar.Play();
+				m_isOnRadar = true;
+
+			}
+			if (Input.GetKeyUp(KeyCode.LeftShift))
+			{
+				m_isOnRadar = false;
+				m_particleRadar.Stop();
+				m_count = 0;
+			}
+		}
+
+		
 
 		//Control that'll be called if the typeOfController is a joystick
 		if (m_isOnCombat == true && m_TypeOfController == "Controller")
@@ -218,7 +251,6 @@ public abstract class BaseShip : MonoBehaviour
 			m_colourChangeCollision = true;
 			m_currentDelay = Time.time + m_colourChangeDelay;
 			m_health -= _damageTaken;
-		
 
 	}
 

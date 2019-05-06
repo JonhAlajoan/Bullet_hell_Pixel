@@ -15,7 +15,7 @@ public class Contego_Shield : BaseEnemy {
 	public override void Start()
 	{
 		base.Start();
-		base.Initialization(200, 0, 0, transform.parent.GetComponent<Animator>());
+		base.Initialization(400, 0, 0, transform.parent.GetComponent<Animator>());
 		m_isMaximumCapacity = false;
 	}
 
@@ -31,6 +31,7 @@ public class Contego_Shield : BaseEnemy {
 	{
 		if(m_isMaximumCapacity == false)
 			m_health += Time.deltaTime * 28.58f;
+
 	}
 
 	

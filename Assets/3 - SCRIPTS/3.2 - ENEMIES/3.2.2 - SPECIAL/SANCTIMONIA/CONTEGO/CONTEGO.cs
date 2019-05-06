@@ -7,20 +7,29 @@ public class CONTEGO : BaseEnemy{
 	[SerializeField]
 	protected GameObject m_shield;
 
+	protected UbhShotCtrl m_shotControl;
+
 	public override void Start()
 	{
 		m_count = 0;
 		base.Start();
-		base.Initialization(20, 30, 300, gameObject.GetComponent<Animator>());
+		base.Initialization(100, 30, 300, gameObject.GetComponent<Animator>());
 
 		m_shield = transform.GetComponentInChildren<Contego_Shield>().gameObject;
+		if (!m_shotControl)
+			m_shotControl = GetComponent<UbhShotCtrl>();
 	}
 
 	// Update is called once per frame
 	public override void Update()
 	{
 		base.Update();
-		Debug.Log(m_count);
+
+		if (m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
+		{
+			m_animator.SetBool("isMaximumCapacity", true);
+		}
+
 	}
 
 	/*public void CreateShield()
@@ -33,6 +42,6 @@ public class CONTEGO : BaseEnemy{
 
 	public override void Shoot(string _typeOfShot)
 	{
-		TrashMan.spawn(_typeOfShot, transform.position, transform.rotation);
+		m_shotControl.StartShotRoutine();
 	}
 }

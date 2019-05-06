@@ -12,7 +12,7 @@ public class managerOfScene : MonoBehaviour
 
 	protected Animator m_animatorShip; //Main animator of the ship	
 
-	protected GameObject m_virtualCamera; //Virtual camera from cinemachine
+	public GameObject m_virtualCamera; //Virtual camera from cinemachine
 
 	private void Start()
 	{
@@ -52,6 +52,7 @@ public class managerOfScene : MonoBehaviour
 
 		m_animatorShip.SetBool("isOnCombat", stateOfCombat);
 	}
+
 
 
 	private void Update()
