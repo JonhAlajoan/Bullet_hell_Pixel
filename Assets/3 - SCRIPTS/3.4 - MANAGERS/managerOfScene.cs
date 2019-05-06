@@ -14,10 +14,24 @@ public class managerOfScene : MonoBehaviour
 
 	public GameObject m_virtualCamera; //Virtual camera from cinemachine
 
+	public CinemachineVirtualCamera m_combatCam;
+
+	[SerializeField]
+	protected Transform m_enemyFlockPosition;
+
 	private void Start()
 	{
 		m_animatorShip = FindObjectOfType<BaseShip>().GetComponent<Animator>();
 		m_virtualCamera = FindObjectOfType<CinemachineVirtualCamera>().gameObject;
+
+		if (!m_enemyFlockPosition)
+			m_enemyFlockPosition = FindObjectOfType<EnemiesWaveController>().transform;
+
+		if (!m_combatCam)
+		{
+			m_combatCam = GameObject.FindGameObjectWithTag("Vcams").transform.FindInChildren("Combate")
+					.GetComponent<CinemachineVirtualCamera>();
+		} 
 
 		if (m_virtualCamera)
 		{
@@ -65,6 +79,19 @@ public class managerOfScene : MonoBehaviour
 		{
 			typeOfController = "Joystick";
 		}
-		
+		/*
+		if (!m_combatCam)
+		{
+			m_combatCam = GameObject.FindGameObjectWithTag("Vcams").transform.FindInChildren("Combate")
+					.GetComponent<CinemachineVirtualCamera>();
+		}*/
+
+		/*
+		if (m_enemyFlockPosition)
+			m_combatCam.m_LookAt = m_enemyFlockPosition;
+		else if (m_enemyFlockPosition == null)
+			m_enemyFlockPosition = FindObjectOfType<EnemiesWaveController>().transform;
+			*/
+
 	}
 }

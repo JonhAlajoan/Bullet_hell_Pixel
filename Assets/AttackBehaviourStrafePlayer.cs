@@ -31,9 +31,6 @@ public class AttackBehaviourStrafePlayer : StateMachineBehaviour {
 		if (m_sceneManager == null)
 			m_sceneManager = FindObjectOfType<managerOfScene>();
 
-		if (m_startRotation == null)
-			m_startRotation = animator.rootRotation;
-
 			
 		//animator.transform.parent = null;
 	}
@@ -44,19 +41,25 @@ public class AttackBehaviourStrafePlayer : StateMachineBehaviour {
 
 		if (animator.name == "LANCER")
 		{
-			m_accel = 1f * Time.deltaTime;
+			if(m_accel >= 4)
+			{
+				speed += m_accel * 3;
+				m_accel = 1;
+			}
+			
+			if(animator.GetComponent<LANCER>().isAttached == true)
+			{
+				speed = 500;
+				animator.GetComponent<Collider2D>().enabled = false;
+			} 
+			else if(animator.GetComponent<LANCER>().isAttached == false)
+			{
+				Vector3 _rot = animator.transform.right = m_playerPosition.position - animator.transform.position;
+				animator.rootPosition = _rot;
 
-			speed += m_accel;
-			Vector3 relativePos = m_playerPosition.position - animator.transform.position;
-
-			// the second argument, upwards, defaults to Vector3.up
-			Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-
-			animator.rootRotation = rotation;
+				m_accel += 2f * Time.deltaTime;
+			}
 		}
-
-		else
-			return;
 
 		if (m_playerPosition == null)
 			m_playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
@@ -82,7 +85,6 @@ public class AttackBehaviourStrafePlayer : StateMachineBehaviour {
 
 		else if (Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) > m_chasingDistance * m_aggroRange)
 		{
-		
 			animator.SetBool("isPatrolling", true);
 			animator.SetBool("isAttacking", false);
 			m_sceneManager.changeStateOfCombat(false);

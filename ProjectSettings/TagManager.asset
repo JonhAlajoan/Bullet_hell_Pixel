@@ -10,6 +10,7 @@ TagManager:
   - Boss
   - HealthBar
   - Invulnerable
+  - Vcams
   layers:
   - Default
   - TransparentFX

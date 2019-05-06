@@ -5,6 +5,9 @@ TextureImporter:
     21300000: LANCER_FACE
     21300002: LANCER_MOUTH
     21300004: LANCER_BACK
+    21300006: LANCER_MAIN
+    21300008: LANCER_EYE_LEFT
+    21300010: LANCER_EYE_RIGHT
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -120,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LANCER_FACE
+      name: LANCER_MAIN
       rect:
         serializedVersion: 2
         x: 6
@@ -134,7 +137,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7dacad3eeb8db164fb1f28f577f9954c
+      spriteID: b3d295a001a366740b60ece9d56c707f
       vertices: []
       indices: 
       edges: []
@@ -154,7 +157,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 186cf3442776a864ab1ab119aec6b103
+      spriteID: 06228c48f4e4ee342a04364b4de9ed4a
       vertices: []
       indices: 
       edges: []
@@ -174,7 +177,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fcdb78c7be8e46438e37565114df86c
+      spriteID: 3b5a075d459671c46b10d233020e8a1c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LANCER_EYE_LEFT
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 9
+        width: 20
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c41767a75f9f86a4e9deca508caeb1e2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LANCER_EYE_RIGHT
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 9
+        width: 20
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 666ac4b5b7428a641ae3675251e59173
       vertices: []
       indices: 
       edges: []

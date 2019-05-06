@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_startWaitTime: 0
-  m_distanceToPlayer: 10
+  m_distanceToPlayer: 20
 --- !u!114 &114918983849048516
 MonoBehaviour:
   m_ObjectHideFlags: 1

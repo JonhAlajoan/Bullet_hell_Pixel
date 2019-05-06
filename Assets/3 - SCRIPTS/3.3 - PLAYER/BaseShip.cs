@@ -161,7 +161,7 @@ public abstract class BaseShip : MonoBehaviour
 		//Calling the AnimatorStateOfCombat Method
 		AnimatorStateOfCombat(m_isOnCombat);
 
-		if(m_count >= 8)
+		if (m_count >= 8)
 		{
 			if (Input.GetKeyDown(KeyCode.LeftShift))
 			{
@@ -177,6 +177,8 @@ public abstract class BaseShip : MonoBehaviour
 				m_count = 0;
 			}
 		}
+		else
+			return;
 
 		
 
