@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.PostProcessing;
 using Cinemachine;
 using System;
+using UnityEngine.UI;
 public abstract class BaseShip : MonoBehaviour
 {
 
@@ -64,10 +65,14 @@ public abstract class BaseShip : MonoBehaviour
 
 	protected bool m_isOnRadar;
 
+	public Text m_radarText;
+	public Text m_healthText;
+	string m_radarIsReady;
+
 	//This Initialization function, sets the variables for the parameters, normally this will be used on the start function 
 	public void Initialization(float _hp, float _speedOfShip, float _MsBetweenShots, Animator _animatorOfShip, Rigidbody2D _rigidBody)
 	{
-
+		m_radarIsReady = "Not ready";
 		m_health = _hp;
 		m_speed = _speedOfShip;
 		m_msBetweenShots = _MsBetweenShots;
@@ -163,6 +168,7 @@ public abstract class BaseShip : MonoBehaviour
 
 		if (m_count >= 8)
 		{
+			m_radarIsReady = "Ready!";
 			if (Input.GetKeyDown(KeyCode.LeftShift))
 			{
 				if (!m_particleRadar.isPlaying)
@@ -175,12 +181,9 @@ public abstract class BaseShip : MonoBehaviour
 				m_isOnRadar = false;
 				m_particleRadar.Stop();
 				m_count = 0;
+				m_radarIsReady = "Not ready!";
 			}
-		}
-		else
-			return;
-
-		
+		}		
 
 		//Control that'll be called if the typeOfController is a joystick
 		if (m_isOnCombat == true && m_TypeOfController == "Controller")
@@ -221,7 +224,9 @@ public abstract class BaseShip : MonoBehaviour
 		}
 		changeColor();
 
-
+		m_healthText.text = "Health: " + m_health.ToString();
+		m_radarText.text = "Radar: " + m_radarIsReady;
+		
 	}
 
 	public void changeColor()

@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
 	Vector3 mousePosition;
 	
     
-	void LateUpdate ()
+	void FixedUpdate ()
 	{
 		Cursor.visible= false;
 		mousePosition = Input.mousePosition;
