@@ -17,6 +17,10 @@ public class BaseProjectile : MonoBehaviour {
 		count = 0;
 
 	}
+	private void Awake()
+	{
+		count = 0;
+	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -28,6 +32,7 @@ public class BaseProjectile : MonoBehaviour {
 			{
 				count = 0;
 			}
+
 			else
 			{
 				count = 0;
@@ -73,7 +78,6 @@ public class BaseProjectile : MonoBehaviour {
 			count = 0;
 			transform.rotation = new Quaternion(0, 0, 0, 0);
 			TrashMan.despawn(gameObject);
-			
 		}
 		float moveDistance = speed * Time.deltaTime;
 		transform.Translate(Vector2.up* moveDistance);

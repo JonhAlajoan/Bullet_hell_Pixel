@@ -36,17 +36,20 @@ public abstract class BaseShip : MonoBehaviour
 	protected float m_health; //Health of the ship
 	protected float m_speed; //Movespeed of the ship
 	protected float m_xAxis; //Horizontal Axis
-	protected float m_yAxis; //Vertical Axis
+	protected float m_yAxis; //Vertical Axis							
+	protected float m_count; //Countdown to set the radar on/off
+	protected float m_colourChangeDelay = 0.5f; //delay to change the color and get back
+	protected float m_currentDelay = 0f; //Actual time + colourChangeDelay to serve as a parameter for the if
 
-	protected float m_colourChangeDelay = 0.5f;
-	protected float m_currentDelay = 0f;
-	protected bool m_colourChangeCollision = false;
+	protected bool m_colourChangeCollision = false; //Controller used as parameter on the function takeDamage permite change of color
+	protected bool m_isOnRadar; //Bool that controls if the radar is on or off (If true, the player can't move)
 
 	[SerializeField]
 	protected SpriteRenderer[] m_spritesShip;
 
-	//Type of controller that'll be used ("Controller") or ("Keyboard")
-	protected string m_TypeOfController;
+	
+	protected string m_TypeOfController; //Type of controller that'll be used ("Controller") or ("Keyboard")
+	string m_radarIsReady; //String that is changed in order for the UI.text to show "Ready!" Or "Not Ready!"
 
 	//Direction where the mouse is pointed so it can turn in the animator
     Vector2 directionMouse;
@@ -57,17 +60,12 @@ public abstract class BaseShip : MonoBehaviour
 	//Constructor of the cameraController Class
 	protected CameraController m_cameraController;
 
-	protected ShipRadar m_radarShip;
-
+	//Particles of the radar
 	protected ParticleSystem m_particleRadar;
-
-	protected float m_count;
-
-	protected bool m_isOnRadar;
-
+	
+	//Text components
 	public Text m_radarText;
 	public Text m_healthText;
-	string m_radarIsReady;
 
 	//This Initialization function, sets the variables for the parameters, normally this will be used on the start function 
 	public void Initialization(float _hp, float _speedOfShip, float _MsBetweenShots, Animator _animatorOfShip, Rigidbody2D _rigidBody)
@@ -136,20 +134,21 @@ public abstract class BaseShip : MonoBehaviour
 	//FixedUpdate focused on the movement of the player
     private void FixedUpdate()
 	{
-			m_animatorShip.SetFloat("yAxis", m_yAxis);
-			m_animatorShip.SetFloat("xAxis", m_xAxis);
 
-			m_xAxis = Input.GetAxis("Horizontal");
-			m_yAxis = Input.GetAxis("Vertical");
+		//getting the inputs
+		m_xAxis = Input.GetAxis("Horizontal");
+		m_yAxis = Input.GetAxis("Vertical");
 
+		//Setting the animator parameters
+		m_animatorShip.SetFloat("yAxis", m_yAxis);
+		m_animatorShip.SetFloat("xAxis", m_xAxis);
+
+		//if the radar isn't on, ship can't move
 		if (m_isOnRadar == false)
 		{
 			Vector2 _movement2d = new Vector2(m_xAxis, m_yAxis);
-			//Using the physics for movement
 			transform.Translate(_movement2d * (m_speed * Time.deltaTime), Space.World);
 		}
-		else
-			return;
 	}
 
 
@@ -157,6 +156,7 @@ public abstract class BaseShip : MonoBehaviour
 	{
 
 		m_count += 1 * Time.deltaTime;
+
 		//Getting the state of the combat from the manager
 		m_isOnCombat = m_manager.stateOfCombat;
 
@@ -165,18 +165,20 @@ public abstract class BaseShip : MonoBehaviour
 
 		//Calling the AnimatorStateOfCombat Method
 		AnimatorStateOfCombat(m_isOnCombat);
-
+		
+		//if count > 8, the player can press a button to call the radar
 		if (m_count >= 8)
 		{
 			m_radarIsReady = "Ready!";
-			if (Input.GetKeyDown(KeyCode.LeftShift))
+			if (Input.GetKeyDown(KeyCode.LeftControl))
 			{
 				if (!m_particleRadar.isPlaying)
 					m_particleRadar.Play();
 				m_isOnRadar = true;
 
 			}
-			if (Input.GetKeyUp(KeyCode.LeftShift))
+
+			if (Input.GetKeyUp(KeyCode.LeftControl))
 			{
 				m_isOnRadar = false;
 				m_particleRadar.Stop();
@@ -207,6 +209,7 @@ public abstract class BaseShip : MonoBehaviour
 		//Control that'll be called if the TypeOfController is a Keyboard
         if(m_isOnCombat == true && m_TypeOfController == "Keyboard")
         {
+		
             faceMouse();
 
 			m_animatorShip.SetFloat("xAxisRightStick", directionMouse.x);
@@ -216,7 +219,17 @@ public abstract class BaseShip : MonoBehaviour
             {
                 Shoot();
             }
-        }
+
+			if(Input.GetKeyDown(KeyCode.LeftShift))
+			{
+				m_speed = m_speed / 4;
+			}
+
+			if (Input.GetKeyUp(KeyCode.LeftShift))
+			{
+				m_speed = m_speed * 4;
+			}
+		}
 
 		if (m_health <= 0)
 		{
@@ -224,6 +237,9 @@ public abstract class BaseShip : MonoBehaviour
 		}
 		changeColor();
 
+		
+
+		//Changing radar and health disponibility
 		m_healthText.text = "Health: " + m_health.ToString();
 		m_radarText.text = "Radar: " + m_radarIsReady;
 		
@@ -231,6 +247,7 @@ public abstract class BaseShip : MonoBehaviour
 
 	public void changeColor()
 	{
+		//Duration of the lerp
 		float _duration = 0.08f;
 		float _lerp = Mathf.PingPong(Time.time, _duration) / _duration;
 
@@ -252,9 +269,10 @@ public abstract class BaseShip : MonoBehaviour
 
 	}
 
+	//Function makes the ship flash between white and black and take damage
 	public void TakeDamage(float _damageTaken)
 	{
-		
+			
 			m_colourChangeCollision = true;
 			m_currentDelay = Time.time + m_colourChangeDelay;
 			m_health -= _damageTaken;

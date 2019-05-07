@@ -23,7 +23,8 @@ public class AttackBehaviourStrafePlayer : StateMachineBehaviour {
 	protected managerOfScene m_sceneManager;
 
 	protected float m_accel;
-	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+
+
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		m_playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
@@ -31,11 +32,9 @@ public class AttackBehaviourStrafePlayer : StateMachineBehaviour {
 		if (m_sceneManager == null)
 			m_sceneManager = FindObjectOfType<managerOfScene>();
 
-			
-		//animator.transform.parent = null;
 	}
 
-	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 
@@ -49,47 +48,52 @@ public class AttackBehaviourStrafePlayer : StateMachineBehaviour {
 			
 			if(animator.GetComponent<LANCER>().isAttached == true)
 			{
-				speed = 500;
+				animator.transform.parent = m_playerPosition.transform;
+				animator.rootPosition = new Vector3(0, 0, 0);
 				animator.GetComponent<Collider2D>().enabled = false;
+				m_accel = 0;
 			} 
-			else if(animator.GetComponent<LANCER>().isAttached == false)
+
+			if(animator.GetComponent<LANCER>().isAttached == false)
 			{
 				Vector3 _rot = animator.transform.right = m_playerPosition.position - animator.transform.position;
 				animator.rootPosition = _rot;
 
 				m_accel += 2f * Time.deltaTime;
+
+				if (Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) > m_chasingDistance)
+				{
+					animator.transform.position = Vector2.MoveTowards(animator.transform.position, m_playerPosition.transform.position
+						, speed * Time.deltaTime);
+				}
+
+				if (Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) < m_retreatDistance)
+				{
+					animator.transform.position = Vector2.MoveTowards(animator.transform.position, m_playerPosition.transform.position
+						, -speed * Time.deltaTime);
+				}
+
+				if (Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) < m_chasingDistance
+					&& Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) > m_retreatDistance)
+				{
+					animator.transform.position = animator.transform.position;
+				}
+
+
+				else if (Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) > m_chasingDistance * m_aggroRange)
+				{
+					animator.SetBool("isPatrolling", true);
+					animator.SetBool("isAttacking", false);
+					m_sceneManager.changeStateOfCombat(false);
+
+				}
 			}
 		}
 
 		if (m_playerPosition == null)
 			m_playerPosition = GameObject.FindGameObjectWithTag("Player").transform;
 
-		if (Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) > m_chasingDistance)
-		{
-			animator.transform.position = Vector2.MoveTowards(animator.transform.position, m_playerPosition.transform.position
-				, speed * Time.deltaTime);
-		}		
-
-		if (Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) < m_retreatDistance)
-		{
-			animator.transform.position = Vector2.MoveTowards(animator.transform.position, m_playerPosition.transform.position
-				, -speed * Time.deltaTime);
-		}
-
-		if (Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) < m_chasingDistance
-			&& Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) > m_retreatDistance)
-		{
-			animator.transform.position = animator.transform.position;
-		}
-
-
-		else if (Vector2.Distance(animator.transform.position, m_playerPosition.transform.position) > m_chasingDistance * m_aggroRange)
-		{
-			animator.SetBool("isPatrolling", true);
-			animator.SetBool("isAttacking", false);
-			m_sceneManager.changeStateOfCombat(false);
-
-		}
+	
 
 
 
