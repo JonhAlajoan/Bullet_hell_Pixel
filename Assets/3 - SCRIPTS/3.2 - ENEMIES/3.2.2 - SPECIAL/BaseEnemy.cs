@@ -4,32 +4,30 @@ using UnityEngine;
 
 public abstract class BaseEnemy : MonoBehaviour
 {
-	protected float m_nextShotTime;
-	protected float m_msBetweenShots;
-	protected float m_startingHealth;
-	[SerializeField]
-	protected float m_health;
-	public float speedEnemy;
+    //-------------This class serve as the base for the all enemies classes------------
 
-	protected Animator m_animator;
-
-	protected Transform m_targetPlayer;
+	protected float m_nextShotTime; //this will be subtracted from the time to decide the time of the next shot
+	protected float m_msBetweenShots; //The milisseconds between shots
+	protected float m_startingHealth; //Starting health of the enemy
 
 	[SerializeField]
-	protected SpriteRenderer[] m_sprites;
+	protected float m_health; //Actual health of the enemy
 
-	public Transform[] Muzzles;
+    protected float m_count = 0; //If any enemy need a counter on a update override
+    protected float m_colourChangeDelay = 0.5f; //delay to change the color and get back
+    protected float m_currentDelay = 0f; //Actual time + colourChangeDelay to serve as a parameter for the if
 
-	protected float m_count = 0;
-
-	protected float m_colourChangeDelay = 0.5f;
-	protected float m_currentDelay = 0f;
-	protected bool m_colourChangeCollision = false;
-
-	protected managerOfScene m_manager;
+    protected Animator m_animator; //Animator of the enemy
 
 	[SerializeField]
-	protected TextMesh m_text;
+	protected SpriteRenderer[] m_sprites; //Sprites of the enemies that'll be used to change color
+
+    protected bool m_colourChangeCollision = false; //Controller used as parameter on the function takeDamage permite change of color
+
+    protected managerOfScene m_manager; //Manager of the scene
+
+	[SerializeField]
+	protected TextMesh m_text; //Text mesh for debug purposes
 
 	public virtual void Start()
 	{
@@ -37,13 +35,13 @@ public abstract class BaseEnemy : MonoBehaviour
 			m_manager = FindObjectOfType<managerOfScene>();
 	}
 
-	public void Initialization(float _hp, float _speedOfEnemy, float _MsBetweenShots, Animator _animatorOfEnemy)
+    //This Initialization function, sets the variables for the parameters, normally this will be used on the start function 
+    public void Initialization(float _hp, float _MsBetweenShots, Animator _animatorOfEnemy)
 	{
 		m_startingHealth = _hp;
 		m_health = _hp;
 		m_msBetweenShots = _MsBetweenShots;
 		m_animator = _animatorOfEnemy;
-		speedEnemy = _speedOfEnemy;
 	}
 
 	public void TakeDamage(float _damageTaken)
@@ -53,13 +51,13 @@ public abstract class BaseEnemy : MonoBehaviour
 		m_health -= _damageTaken;
 	}
 
-
 	public void die()
 	{
 		TrashMan.despawn(gameObject);
 	}
 
 	public abstract void Shoot(string _typeOfBullets);
+
 
 	public virtual void Update()
 	{
@@ -71,6 +69,7 @@ public abstract class BaseEnemy : MonoBehaviour
 		m_text.text = m_health.ToString();
 	}
 
+    //Function that makes the enemy be healed by the contego
 	public void ContegoHeal(float _hpRecovered)
 	{
 		if(gameObject.name == "CONTEGO_SHIELD")
@@ -85,6 +84,7 @@ public abstract class BaseEnemy : MonoBehaviour
 			
 	}
 
+    //Reset the HP and add it to the starting health whenever called (normally when aggro is lost)
 	public void resetHp()
 	{
 		m_health += m_startingHealth;

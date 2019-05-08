@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class CONTEGO : BaseEnemy{
 
-	[SerializeField]
-	protected GameObject m_shield;
-
+    //The shot controller of the enemy from Uni Bullet hell
 	protected UbhShotCtrl m_shotControl;
 
 	public override void Start()
 	{
 		m_count = 0;
 		base.Start();
-		base.Initialization(100, 30, 300, gameObject.GetComponent<Animator>());
+	    Initialization(100, 300, gameObject.GetComponent<Animator>());
 
-		m_shield = transform.GetComponentInChildren<Contego_Shield>().gameObject;
 		if (!m_shotControl)
 			m_shotControl = GetComponent<UbhShotCtrl>();
 	}
@@ -25,6 +22,7 @@ public class CONTEGO : BaseEnemy{
 	{
 		base.Update();
 
+        //If the shield is complete, set the animator parameter to true
 		if (m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
 		{
 			m_animator.SetBool("isMaximumCapacity", true);
@@ -32,14 +30,7 @@ public class CONTEGO : BaseEnemy{
 
 	}
 
-	/*public void CreateShield()
-	{
-		GameObject _shield = TrashMan.spawn("CONTEGO_SHIELD", transform.position, transform.rotation);
-		_shield.transform.parent = transform;
-		_shield.transform.position = transform.localPosition;
-		m_shield = _shield;
-	}*/
-
+    //method that'll be invoked on animation
 	public override void Shoot(string _typeOfShot)
 	{
 		m_shotControl.StartShotRoutine();

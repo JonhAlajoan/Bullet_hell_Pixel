@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class RAMIEL : BaseEnemy {
 
-	// Use this for initialization
-
 	public UbhShotCtrl[] m_shotControl;
 
 	public override void Start()
 	{
 		base.Start();
-		base.Initialization(100, 30, 100, gameObject.GetComponent<Animator>());
+		base.Initialization(100, 100, gameObject.GetComponent<Animator>());
 	}
 
-	// Update is called once per frame
 	public override void Update()
 	{
 		base.Update();

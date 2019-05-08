@@ -8,9 +8,12 @@ public class CorrumpoEggProjectile : BaseEnemyProjectile {
 	protected float m_nextShotTime;
 	protected float m_msBetweenShots;
 
+    float count = 0;
+    float speed = 20;
+
 	private void Start()
 	{
-		base.Initialize(Random.Range(5,10), 12, 8, 0, 1);
+		base.Initialize(0,"");
 		m_shotControl = GetComponent<UbhShotCtrl>();
 		m_msBetweenShots = 6000;
 	}
@@ -28,7 +31,6 @@ public class CorrumpoEggProjectile : BaseEnemyProjectile {
 	public override void Update()
 	{
 		transform.Translate(Vector2.down * speed * Time.deltaTime);
-
 	
 		count += 1 * Time.deltaTime;
 
@@ -46,8 +48,6 @@ public class CorrumpoEggProjectile : BaseEnemyProjectile {
 			TrashMan.despawn(gameObject);
 			
 		}
-
-
 
 	}
 }

@@ -4,51 +4,38 @@ using UnityEngine;
 
 public abstract class BaseEnemyProjectile : MonoBehaviour {
 
-	public float speed;
-	public float damage;
-	public float lifetime;
-	public float count;
-	Transform playerPos;
-	bool LockOn;
-	public float angle;
-	public float accelSpeed;
-	public Transform homingTarget;
+    //--------------This is the class of the enemy base projectile to be used on all enemies--------
 
+    /// <Attributes>
+    /// 
+    /// -m_damage: Damage that the bullet will cause to the player ship
+    /// -m_vfxName: Name of the vfx that'll be spawned when the OnTriggerEnter2D runs
+    ///
+    /// </Attributes>
+	
+	protected float m_damage;
+    protected string m_vfxName;
 
-	public void Initialize(float speed, float damage, float lifetime, float angle, float accelSpeed)
+    //Initialization function that starts the damage of the bullet and the VFX that'll be used
+	public void Initialize(float _damage, string _vfxName)
 	{
-		this.speed = speed;
-		this.damage = damage;
-		this.lifetime = lifetime;
-		this.angle = angle;
-		this.accelSpeed = accelSpeed;
+        m_damage = _damage;
+        m_vfxName = _vfxName;
 	}
 
-	void Start()
-	{
-		count = 0;
-		homingTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-	}
-
-	public void SetSpeed(float newSpeed)
-	{
-		speed = newSpeed;
-	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.gameObject.GetComponent<BaseShip>() != null)
 		{
 			BaseShip player = collision.gameObject.GetComponent<BaseShip>();
-			player.TakeDamage(damage);
-			TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
-			count = 0;
+			player.TakeDamage(m_damage);
+			TrashMan.spawn(m_vfxName, transform.position, transform.rotation);
 			transform.rotation = new Quaternion(0, 0, 0, 0);
+            
+            //Trashman.despawn but for the UBH bullets
 			UbhObjectPool.Instance.ReleaseGameObject(transform.parent.gameObject);
 		}
-
-
 	}
 	public abstract void Update();
-		
 }

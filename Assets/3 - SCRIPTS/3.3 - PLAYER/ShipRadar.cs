@@ -6,6 +6,7 @@ public class ShipRadar : MonoBehaviour {
 
 	[SerializeField]
 	protected Transform m_enemyFlockPosition;
+
 	[SerializeField]
 	protected Transform m_playerPosition;
 
@@ -40,16 +41,11 @@ public class ShipRadar : MonoBehaviour {
 			SpawnRadarDots();
 			m_count = 0;
 		}
-			
-
+		
 	}
 
 	public void SpawnRadarDots()
 	{
-
 		Vector2 _radarPos = new Vector2(transform.position.x, transform.position.y + Random.Range(2,5));
-
-		//GameObject _radarDot = TrashMan.spawn("RADAR_DOTS",_radarPos, transform.rotation);
-		//_radarDot.transform.parent = transform;
 	}
 }

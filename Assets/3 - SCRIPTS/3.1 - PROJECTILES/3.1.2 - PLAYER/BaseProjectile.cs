@@ -4,60 +4,76 @@ using UnityEngine;
 
 public class BaseProjectile : MonoBehaviour {
 
-	float speed = 30f;
-	float damage = 1f;
-	public bool firstHit = true;
-	float lifetime = 3;
-	float count;
+    //------------------------Base projectile for using on ships bullets--------------------
+
+    /// <summary>
+    /// 
+    /// - m_speed: Speed of the bullet (the default is 30f)
+    /// - m_damage: Damage that the bullet will cause to the enemy
+    /// - m_lifetime: lifetime of the bullet
+    /// - m_count: control of the timeCount;
+    /// 
+    /// </summary>
+	protected float m_speed = 30f;
+	protected float m_damage = 1f;
+	protected float m_lifetime = 2;
+	protected float m_count;
 	
-
-
+    //No idea why, but onEnable and awake need to have m_count on zero so the invulnerable bullet doesn't crash
 	void OnEnabled()
 	{
-		count = 0;
+		m_count = 0;
 
 	}
-	private void Awake()
+    //No idea why, but onEnable and awake need to have m_count on zero so the invulnerable bullet doesn't crash
+    private void Awake()
 	{
-		count = 0;
+		m_count = 0;
 	}
+
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-
+        //if the detected collider is an enemy projectile...
 		if (collision.gameObject.GetComponentInChildren<BaseEnemyProjectile>() != null)
 		{
-		
+		    
+            //if the projectile detected is invulnerable..
 			if(collision.gameObject.tag == "Invulnerable")
 			{
-				count = 0;
-			}
+				m_count = 0;
+                //TrashMan.spawn("VFX_HIT_INVULNERABLE", transform.position, transform.rotation);
+                //AudioPlays();
+            }
 
 			else
 			{
-				count = 0;
+				m_count = 0;
 				TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
 				UbhObjectPool.Instance.ReleaseGameObject(collision.transform.parent.gameObject);
 			}
+
 			TrashMan.despawn(gameObject);	
 			
 		}
 
+        //if the detected collider is the boss
 		if (collision.gameObject.GetComponent<BaseBoss>() != null)
 		{
 			BaseBoss boss = collision.gameObject.GetComponent<BaseBoss>();
-			boss.TakeDamage(damage);
+			boss.TakeDamage(m_damage);
 			TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
-			count = 0;
+			m_count = 0;
 			TrashMan.despawn(gameObject);
 		}
 
-		if (collision.gameObject.GetComponent<BaseEnemy>() != null)
+        //if the detected collider is the enemy
+        if (collision.gameObject.GetComponent<BaseEnemy>() != null)
 		{
 			BaseEnemy enemy = collision.gameObject.GetComponent<BaseEnemy>();
-			enemy.TakeDamage(damage);
+			enemy.TakeDamage(m_damage);
 			TrashMan.spawn("VFX_HIT_PLAYER", transform.position, transform.rotation);
-			count = 0;
+			m_count = 0;
 			TrashMan.despawn(gameObject);
 		}
 
@@ -66,20 +82,22 @@ public class BaseProjectile : MonoBehaviour {
 
 	public void SetSpeed(float newSpeed)
 	{
-		speed = newSpeed;
+		m_speed = newSpeed;
 	}
 
 	void Update()
 	{
-		count += 1 * Time.deltaTime;
+		m_count += 1 * Time.deltaTime;
 
-		if (count >= 2)
+		if (m_count >= m_lifetime)
 		{
-			count = 0;
+			m_count = 0;
 			transform.rotation = new Quaternion(0, 0, 0, 0);
 			TrashMan.despawn(gameObject);
 		}
-		float moveDistance = speed * Time.deltaTime;
+
+		float moveDistance = m_speed * Time.deltaTime;
+
 		transform.Translate(Vector2.up* moveDistance);
 	}
 

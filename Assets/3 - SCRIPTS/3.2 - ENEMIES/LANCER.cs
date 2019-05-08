@@ -12,18 +12,14 @@ public class LANCER : BaseEnemy {
 		throw new System.NotImplementedException();
 	}
 
-
-
-	// Use this for initialization
 	public override void Start ()
 	{
-		base.Initialization(30, 30, 0, GetComponent<Animator>());
+		base.Initialization(30, 0, GetComponent<Animator>());
 		m_playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 		m_count = 0;
 		isAttached = false;
 	}
-	
-	// Update is called once per frame
+
 	public override void Update ()
 	{
 		base.Update();
