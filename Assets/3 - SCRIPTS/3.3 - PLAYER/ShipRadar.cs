@@ -9,7 +9,7 @@ public class ShipRadar : MonoBehaviour {
 
 	[SerializeField]
 	protected Transform m_playerPosition;
-
+    
 	[SerializeField]
 	protected Transform m_radarRotation;
 

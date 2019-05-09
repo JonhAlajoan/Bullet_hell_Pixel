@@ -82,8 +82,10 @@ public abstract class BaseShip : MonoBehaviour
 
 		//Finding the objects that have a cameraController and the ManagerOfScene
 		m_manager = FindObjectOfType<managerOfScene>();
-		m_cameraController = FindObjectOfType<CameraController>();
-		m_particleRadar = transform.FindInChildren("RADAR").GetComponent<ParticleSystem>();
+		m_cameraController = m_manager.GetComponent<CameraController>();
+        m_radarText = m_manager.GetComponent<UIManager>().radarText;
+        m_healthText = m_manager.GetComponent<UIManager>().hpText;
+        m_particleRadar = transform.FindInChildren("RADAR").GetComponent<ParticleSystem>();
 		m_isOnRadar = false;
 	}
 

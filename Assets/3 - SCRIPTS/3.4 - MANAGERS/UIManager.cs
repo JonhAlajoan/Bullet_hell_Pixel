@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-	[SerializeField]
-	protected GameObject Crosshair;
+
+	public GameObject Crosshair;
+    public Text hpText;
+    public Text radarText;
 
 	Vector3 mousePosition;
 	

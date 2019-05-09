@@ -66,7 +66,7 @@ public abstract class BaseEnemy : MonoBehaviour
 			die();
 		}
 		changeColor();
-		m_text.text = m_health.ToString();
+		//m_text.text = m_health.ToString();
 	}
 
     //Function that makes the enemy be healed by the contego

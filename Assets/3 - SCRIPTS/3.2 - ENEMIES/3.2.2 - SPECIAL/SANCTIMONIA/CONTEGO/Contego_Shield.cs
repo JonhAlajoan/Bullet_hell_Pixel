@@ -15,7 +15,7 @@ public class Contego_Shield : BaseEnemy {
 	public override void Start()
 	{
 		base.Start();
-		base.Initialization(400, 0, 0, transform.parent.GetComponent<Animator>());
+		base.Initialization(400, 0, transform.parent.GetComponent<Animator>());
 		m_isMaximumCapacity = false;
 	}
 
