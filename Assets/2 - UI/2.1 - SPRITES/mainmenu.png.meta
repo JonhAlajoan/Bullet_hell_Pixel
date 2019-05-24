@@ -5,6 +5,7 @@ TextureImporter:
     21300000: luft_0
     21300002: luft-engels-2
     21300004: menu-select
+    21300006: Botao_select
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -106,7 +107,7 @@ TextureImporter:
         width: 395
         height: 122
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -126,7 +127,7 @@ TextureImporter:
         width: 447
         height: 86
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -138,13 +139,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: menu-select
+      name: Botao_select
       rect:
         serializedVersion: 2
-        x: 5
-        y: 403
-        width: 19
-        height: 9
+        x: 8
+        y: 404
+        width: 16
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,7 +153,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5721a3d9ba08cc4a8cf0a712ffc095e
+      spriteID: d1b7f7cd3f594714d8cb021f341f892c
       vertices: []
       indices: 
       edges: []

@@ -2,40 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.UI;
 public class ManagerMenu : MonoBehaviour
 {
+    public int indexDefault = 0;
+    public int indexCanvas = 0;
     public Canvas[] canvas;
-    public EventSystem eventSystem;
-    public GameObject[] textObjects;
-    protected GameObject m_selectedObject;
 
+    public Button defaultBtn;
 
-    private void OnEnable()
+    private EventSystem myEventSystem;
+
+    private void Awake()
     {
-        eventSystem = EventSystem.current;
-        m_selectedObject = eventSystem.currentSelectedGameObject;
-            
+        myEventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
+        Cursor.visible = false;
     }
 
+    private void Deselect()
+    {
+        myEventSystem.SetSelectedGameObject(null);
+    }
 
     private void Update()
     {
-        if (!eventSystem)
-            eventSystem = EventSystem.current;
+        if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0 || Input.GetMouseButtonDown(0))
+           && defaultBtn != null
+           && myEventSystem.currentSelectedGameObject == null)
+        {
+            defaultBtn.Select();
+            indexDefault = 0;
+        }
 
-        
-        
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            Deselect();
+        }
+
     }
-
-    public void JumpNextObject(string _name)
+    
+    public void ChangeCanvas(string _canvas)
     {
-            for (int i = 0; i < textObjects.Length; i++)
+        for(int i = 0; i < canvas.Length; i++)
+        {
+            if(canvas[i].name == _canvas)
             {
-                if (textObjects[i].name == _name)
-                    m_selectedObject = textObjects[i + 1];
+                canvas[i].gameObject.SetActive(false);
+                canvas[i + 1].gameObject.SetActive(true);
             }
- 
+        }
+        indexDefault = 0;
     }
 
 }
