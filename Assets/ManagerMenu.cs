@@ -9,7 +9,7 @@ public class ManagerMenu : MonoBehaviour
     public int indexCanvas = 0;
     public Canvas[] canvas;
 
-    public Button defaultBtn;
+    public GameObject defaultBtn;
 
     private EventSystem myEventSystem;
 
@@ -26,32 +26,18 @@ public class ManagerMenu : MonoBehaviour
 
     private void Update()
     {
+        if(myEventSystem.currentSelectedGameObject != null)
+            defaultBtn = myEventSystem.currentSelectedGameObject.gameObject;
+
         if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0 || Input.GetMouseButtonDown(0))
            && defaultBtn != null
            && myEventSystem.currentSelectedGameObject == null)
         {
-            defaultBtn.Select();
+            myEventSystem.SetSelectedGameObject(defaultBtn);
             indexDefault = 0;
         }
-
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            Deselect();
-        }
-
     }
     
-    public void ChangeCanvas(string _canvas)
-    {
-        for(int i = 0; i < canvas.Length; i++)
-        {
-            if(canvas[i].name == _canvas)
-            {
-                canvas[i].gameObject.SetActive(false);
-                canvas[i + 1].gameObject.SetActive(true);
-            }
-        }
-        indexDefault = 0;
-    }
+    
 
 }
