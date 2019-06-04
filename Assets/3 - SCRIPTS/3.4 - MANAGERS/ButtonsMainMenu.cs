@@ -14,28 +14,28 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
     protected Canvas m_actualCanvas, m_nextCanvas, m_backCanvas;
 
     [SerializeField]
-    
+    protected Animator m_canvasAnimator;
 
-    protected bool m_colourChange, m_fadeOut;
+    protected bool m_colourChange;
 
-    protected float m_currentDelay, m_delayBetweenColorChange, m_CurrentDelayFade;
+    protected float m_currentDelay, m_delayBetweenColorChange;
 
     protected EventSystem m_eventSystem;
 
-    public Image imageFadeOut;
 
     void Start()
     {
-        imageFadeOut.color = new Color32(34, 32, 32, 0);
         m_eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
         m_currentDelay = 0;
-        m_CurrentDelayFade = 0.5f;
+        m_delayBetweenColorChange = 0.7f;
+
     }
 
     // Update is called once per frame
     void Update()
     {
         changeColor();
+
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -50,26 +50,24 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
     public IEnumerator NextCanvasColorChange()
     {
         m_colourChange = true;
-        m_currentDelay = Time.time + m_CurrentDelayFade;
-
-        yield return new WaitForSeconds(0.5f);
+        m_currentDelay = Time.time + m_delayBetweenColorChange;        
+        yield return new WaitForSeconds(0.9f);
+        m_canvasAnimator.SetBool("FADE_OUT", true);
+        yield return new WaitForSeconds(1f);
         m_colourChange = false;
-        m_fadeOut = true;
-        m_currentDelay = Time.time + m_CurrentDelayFade;
-        yield return new WaitForSeconds(0.5f);
-        m_fadeOut = false;
-        NextCanvas();
+        m_canvasAnimator.SetBool("FADE_OUT", false);
 
+        NextCanvas();
     }
 
     public IEnumerator ReturnCanvasColorChange()
     {
-        m_colourChange = true;
-        yield return new WaitForSeconds(0.5f);
-        m_colourChange = false;
-        m_texts.color = new Color32(255, 255, 255, 255);
-        m_tracos.color = new Color32(255, 255, 255, 255);
+        m_canvasAnimator.SetBool("FADE_OUT", true);
+        yield return new WaitForSeconds(1f);
+        m_canvasAnimator.SetBool("FADE_OUT", false);
+
         ReturnCanvas();
+        
     }
 
     public void NextCanvas()
@@ -82,12 +80,14 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
 
     public void ReturnCanvas()
     {
-
+        if(m_backCanvas)
+        {
             m_actualCanvas.gameObject.SetActive(false);
             m_backCanvas.gameObject.SetActive(true);
             GameObject m_backCanvasSelectable = m_backCanvas.gameObject.GetComponentInChildren<Selectable>().gameObject;
             m_eventSystem.SetSelectedGameObject(m_backCanvasSelectable);
-           
+        }
+      
     }
 
     public void WrapperNextCanvas()
@@ -105,7 +105,6 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
         //Duration of the lerp
         float _duration = 0.04f;
         float _lerp = Mathf.PingPong(Time.time, _duration) / _duration;
-        float _lerpFadeOut = Mathf.PingPong(Time.time, _duration) / 0.5f;
 
         if (m_colourChange)
         {
@@ -116,16 +115,6 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
             {
                 m_texts.color = new Color32(255, 255, 255, 255);
                 m_tracos.color = new Color32(255, 255, 255, 255);
-                m_colourChange = false;
-            }
-        }
-
-        if (m_fadeOut)
-        {
-            imageFadeOut.color = Color32.Lerp(new Color32(34, 32, 32, 255), new Color32(34, 32, 32, 0), _lerp);          
-
-            if (Time.time > m_currentDelay)
-            {
                 m_colourChange = false;
             }
         }
