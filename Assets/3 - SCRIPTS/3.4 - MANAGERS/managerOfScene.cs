@@ -15,7 +15,8 @@ public class managerOfScene : MonoBehaviour
 	public GameObject m_virtualCamera; //Virtual camera from cinemachine
 
 	public CinemachineVirtualCamera m_combatCam;
-        
+
+    public CinemachineTargetGroup m_targetGroup;
 	[SerializeField]
 	protected Transform m_enemyFlockPosition;
 
@@ -66,6 +67,11 @@ public class managerOfScene : MonoBehaviour
 
 		m_animatorShip.SetBool("isOnCombat", stateOfCombat);
 	}
+
+    void AddEnemiesToTargetGroup(GameObject _enemy)
+    {
+        m_targetGroup.m_Targets = new CinemachineTargetGroup.Target[0];
+    }
 
 
 
