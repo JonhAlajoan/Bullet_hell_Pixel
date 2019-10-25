@@ -1098,6 +1098,7 @@ MonoBehaviour:
   typeOfController: 
   m_virtualCamera: {fileID: 0}
   m_combatCam: {fileID: 0}
+  m_targetGroup: {fileID: 0}
   m_enemyFlockPosition: {fileID: 0}
 --- !u!114 &388998397
 MonoBehaviour:
@@ -12843,7 +12844,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1225692079
 Animator:
   serializedVersion: 3
@@ -19276,6 +19277,10 @@ Prefab:
     - target: {fileID: 50300374976745390, guid: 63b4e8bc0c2e06244bb98f203d781a55,
         type: 2}
       propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553568852183588, guid: 63b4e8bc0c2e06244bb98f203d781a55, type: 2}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

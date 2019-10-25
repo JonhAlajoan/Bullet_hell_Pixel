@@ -15,13 +15,13 @@ public abstract class BaseEnemyProjectile : MonoBehaviour {
 	
 	protected float m_damage;
     protected string m_vfxName;
-
+    /*
     //Initialization function that starts the damage of the bullet and the VFX that'll be used
 	public void Initialize(float _damage, string _vfxName)
 	{
         m_damage = _damage;
-        m_vfxName = _vfxName;
-	}
+      //  m_vfxName = _vfxName;
+	}*/
 
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -29,8 +29,8 @@ public abstract class BaseEnemyProjectile : MonoBehaviour {
 		if (collision.gameObject.GetComponent<BaseShip>() != null)
 		{
 			BaseShip player = collision.gameObject.GetComponent<BaseShip>();
-			player.TakeDamage(m_damage);
-			TrashMan.spawn(m_vfxName, transform.position, transform.rotation);
+			player.TakeDamage(1);
+		//	TrashMan.spawn(m_vfxName, transform.position, transform.rotation);
 			transform.rotation = new Quaternion(0, 0, 0, 0);
             
             //Trashman.despawn but for the UBH bullets

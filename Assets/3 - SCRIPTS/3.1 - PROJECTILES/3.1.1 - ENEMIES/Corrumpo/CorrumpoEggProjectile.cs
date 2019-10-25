@@ -13,7 +13,7 @@ public class CorrumpoEggProjectile : BaseEnemyProjectile {
 
 	private void Start()
 	{
-		base.Initialize(0,"");
+		//base.Initialize(0,"");
 		m_shotControl = GetComponent<UbhShotCtrl>();
 		m_msBetweenShots = 6000;
 	}

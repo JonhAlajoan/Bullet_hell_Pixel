@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-
+using UnityEngine.UI;
 public class managerOfScene : MonoBehaviour
 {
 
@@ -19,6 +19,7 @@ public class managerOfScene : MonoBehaviour
     public CinemachineTargetGroup m_targetGroup;
 	[SerializeField]
 	protected Transform m_enemyFlockPosition;
+    public GameObject canvas;
 
 	private void Start()
 	{
@@ -45,7 +46,9 @@ public class managerOfScene : MonoBehaviour
 				GameObject.FindGameObjectWithTag("CinemachineController").GetComponent<GameObject>();
 			}
 		}
-			
+
+        if (canvas)
+            canvas.SetActive(false);
 			
 	}
 
@@ -85,19 +88,27 @@ public class managerOfScene : MonoBehaviour
 		{
 			typeOfController = "Joystick";
 		}
-		/*
+
+
+        if(!m_enemyFlockPosition)
+        {
+            if (canvas)
+                canvas.SetActive(true);
+        }
+           
+        /*
 		if (!m_combatCam)
 		{
 			m_combatCam = GameObject.FindGameObjectWithTag("Vcams").transform.FindInChildren("Combate")
 					.GetComponent<CinemachineVirtualCamera>();
 		}*/
 
-		/*
+        /*
 		if (m_enemyFlockPosition)
 			m_combatCam.m_LookAt = m_enemyFlockPosition;
 		else if (m_enemyFlockPosition == null)
 			m_enemyFlockPosition = FindObjectOfType<EnemiesWaveController>().transform;
 			*/
 
-	}
+    }
 }

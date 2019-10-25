@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class ButtonsMainMenu : MonoBehaviour, ISelectHandler, 
     IDeselectHandler
 {
@@ -16,39 +16,51 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
     [SerializeField]
     protected Animator m_canvasAnimator;
 
-    protected bool m_colourChange;
+    protected bool m_colourChange, m_changeCanvas;
 
     protected float m_currentDelay, m_delayBetweenColorChange;
 
     protected EventSystem m_eventSystem;
 
+    public Selectable[] selectables;
+
+    private bool loadScene = false;
+
+    private void OnEnable()
+    {
+        for (int i = 0; i < selectables.Length; i++)
+        {
+            selectables[i].enabled = true;
+        }
+    }
+
+
+    public void startGame()
+    {
+        StartCoroutine("LoadNewScene");
+    }
 
     void Start()
     {
+        m_changeCanvas = false;
         m_eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
         m_currentDelay = 0;
         m_delayBetweenColorChange = 0.7f;
-
     }
 
     // Update is called once per frame
     void Update()
     {
         changeColor();
-
     }
 
-    public void OnSelect(BaseEventData eventData)
-    {
-        m_tracos.gameObject.SetActive(true);
-    }
-    public void OnDeselect(BaseEventData eventData)
-    {
-        m_tracos.gameObject.SetActive(false);
-    }
-
+   
     public IEnumerator NextCanvasColorChange()
-    {
+    {   
+        for (int i =0; i < selectables.Length; i++)
+        {
+            selectables[i].enabled = false;
+        }
         m_colourChange = true;
         m_currentDelay = Time.time + m_delayBetweenColorChange;        
         yield return new WaitForSeconds(0.9f);
@@ -62,6 +74,10 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
 
     public IEnumerator ReturnCanvasColorChange()
     {
+        for (int i = 0; i < selectables.Length; i++)
+        {
+            selectables[i].enabled = false;
+        }
         m_canvasAnimator.SetBool("FADE_OUT", true);
         yield return new WaitForSeconds(1f);
         m_canvasAnimator.SetBool("FADE_OUT", false);
@@ -120,4 +136,14 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
         }
 
     }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        m_tracos.gameObject.SetActive(true);
+    }
+    public void OnDeselect(BaseEventData eventData)
+    {
+        m_tracos.gameObject.SetActive(false);
+    }
+
 }

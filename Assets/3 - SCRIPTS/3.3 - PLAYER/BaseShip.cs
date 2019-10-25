@@ -67,8 +67,19 @@ public abstract class BaseShip : MonoBehaviour
 	public Text m_radarText;
 	public Text m_healthText;
 
-	//This Initialization function, sets the variables for the parameters, normally this will be used on the start function 
-	public void Initialization(float _hp, float _speedOfShip, float _MsBetweenShots, Animator _animatorOfShip, Rigidbody2D _rigidBody)
+    [SerializeField]
+    protected ShipRadar m_shipRadar;
+
+    public GameObject canvasRestart;
+
+    //This Initialization function, sets the variables for the parameters, normally this will be used on the start function
+
+    private void OnEnable()
+    {
+        canvasRestart.SetActive(false);
+    }
+
+    public void Initialization(float _hp, float _speedOfShip, float _MsBetweenShots, Animator _animatorOfShip, Rigidbody2D _rigidBody)
 	{
 		m_radarIsReady = "Not ready";
 		m_health = _hp;
@@ -130,6 +141,7 @@ public abstract class BaseShip : MonoBehaviour
 
 			//This is the camera shaker being used
 			m_cameraController.Shaker(1f,1f,0.3f);
+          
 		}
 	}
 
@@ -152,7 +164,15 @@ public abstract class BaseShip : MonoBehaviour
 			transform.Translate(_movement2d * (m_speed * Time.deltaTime), Space.World);
 		}
 	}
+    public void playRadar()
+    {
 
+    }
+    
+    public void stopRadar()
+    {
+
+    }
 
 	void Update()
 	{
@@ -169,25 +189,37 @@ public abstract class BaseShip : MonoBehaviour
 		AnimatorStateOfCombat(m_isOnCombat);
 		
 		//if count > 8, the player can press a button to call the radar
+        if(Input.GetKey(KeyCode.LeftControl) && m_count < 8)
+        {
+            m_count = 0;
+        }
+
 		if (m_count >= 8)
 		{
-			m_radarIsReady = "Ready!";
-			if (Input.GetKeyDown(KeyCode.LeftControl))
-			{
-				if (!m_particleRadar.isPlaying)
-					m_particleRadar.Play();
-				m_isOnRadar = true;
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                if (!m_particleRadar.isPlaying)
+                    m_particleRadar.Play();
+                m_isOnRadar = true;
+                m_shipRadar.SpawnRadarDots();
+                m_radarIsReady = "Not ready!";
+            }
 
-			}
-
-			if (Input.GetKeyUp(KeyCode.LeftControl))
-			{
-				m_isOnRadar = false;
-				m_particleRadar.Stop();
-				m_count = 0;
-				m_radarIsReady = "Not ready!";
-			}
-		}		
+            if (Input.GetKeyUp(KeyCode.LeftControl))
+            {
+                m_isOnRadar = false;
+                m_particleRadar.Stop();
+                m_count = 0;
+                m_radarIsReady = "Not ready!";
+            }
+            else
+                m_radarIsReady = "Ready!";
+			
+		}
+        else
+        {
+            m_radarIsReady = "Not Ready";
+        }
 
 		//Control that'll be called if the typeOfController is a joystick
 		if (m_isOnCombat == true && m_TypeOfController == "Controller")
@@ -284,6 +316,7 @@ public abstract class BaseShip : MonoBehaviour
 	public void die()
 	{
 		m_manager.changeStateOfCombat(false);
+        canvasRestart.SetActive(true);
 		TrashMan.despawn(gameObject);
 	}
 
