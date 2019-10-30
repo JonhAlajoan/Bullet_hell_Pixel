@@ -15,7 +15,6 @@ public class managerOfScene : MonoBehaviour
 	public GameObject m_virtualCamera; //Virtual camera from cinemachine
 
 	public CinemachineVirtualCamera m_combatCam;
-
     public CinemachineTargetGroup m_targetGroup;
 	[SerializeField]
 	protected Transform m_enemyFlockPosition;

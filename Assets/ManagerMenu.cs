@@ -24,7 +24,7 @@ public class ManagerMenu : MonoBehaviour
         myEventSystem.SetSelectedGameObject(null);
     }
 
-    private void Update()
+    private void Update()  
     {
         if(myEventSystem.currentSelectedGameObject != null)
             defaultBtn = myEventSystem.currentSelectedGameObject.gameObject;

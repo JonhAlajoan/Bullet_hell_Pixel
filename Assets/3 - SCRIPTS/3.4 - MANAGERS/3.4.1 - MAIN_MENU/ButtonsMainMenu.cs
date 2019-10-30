@@ -4,17 +4,20 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-public class ButtonsMainMenu : MonoBehaviour, ISelectHandler, 
-    IDeselectHandler
+public class ButtonsMainMenu : MonoBehaviour
 {
-    [SerializeField]
-    protected Text m_tracos, m_texts;
+    Canvas
 
+
+        //tava tentando fazer uma list com o canvas
     [SerializeField]
     protected Canvas m_actualCanvas, m_nextCanvas, m_backCanvas;
 
     [SerializeField]
     protected Animator m_canvasAnimator;
+
+    [SerializeField]
+    public Text m_markers, m_text;
 
     protected bool m_colourChange, m_changeCanvas;
 
@@ -23,8 +26,9 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
     protected EventSystem m_eventSystem;
 
     public Selectable[] selectables;
-
+   
     private bool loadScene = false;
+
 
     private void OnEnable()
     {
@@ -45,7 +49,7 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
         m_changeCanvas = false;
         m_eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
         m_currentDelay = 0;
-        m_delayBetweenColorChange = 0.7f;
+        m_delayBetweenColorChange = 0.7f;        
     }
 
     // Update is called once per frame
@@ -54,7 +58,6 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
         changeColor();
     }
 
-   
     public IEnumerator NextCanvasColorChange()
     {   
         for (int i =0; i < selectables.Length; i++)
@@ -106,7 +109,7 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
       
     }
 
-    public void WrapperNextCanvas()
+    public void WrapperNextCanvas(string _actualCanvas, string _nextCanvas, string _previousCanvas)
     {
         StartCoroutine(NextCanvasColorChange());
     }
@@ -124,26 +127,19 @@ public class ButtonsMainMenu : MonoBehaviour, ISelectHandler,
 
         if (m_colourChange)
         {
-            m_texts.color = Color32.Lerp(new Color32(255, 255, 255, 255), new Color32(50, 50, 50, 255), _lerp);
-            m_tracos.color = Color32.Lerp(new Color32(255, 255, 255, 255), new Color32(50, 50, 50, 255), _lerp);
+            m_text.color = Color32.Lerp(new Color32(255, 255, 255, 255), new Color32(50, 50, 50, 255), _lerp);
+            m_markers.color = Color32.Lerp(new Color32(255, 255, 255, 255), new Color32(50, 50, 50, 255), _lerp);
 
             if (Time.time > m_currentDelay)
             {
-                m_texts.color = new Color32(255, 255, 255, 255);
-                m_tracos.color = new Color32(255, 255, 255, 255);
+                m_text.color = new Color32(255, 255, 255, 255);
+                m_markers.color = new Color32(255, 255, 255, 255);
                 m_colourChange = false;
             }
         }
 
     }
 
-    public void OnSelect(BaseEventData eventData)
-    {
-        m_tracos.gameObject.SetActive(true);
-    }
-    public void OnDeselect(BaseEventData eventData)
-    {
-        m_tracos.gameObject.SetActive(false);
-    }
+   
 
 }
