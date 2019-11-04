@@ -5,13 +5,23 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 public class ManagerMenu : MonoBehaviour
 {
-    public int indexDefault = 0;
-    public int indexCanvas = 0;
-    public Canvas[] canvas;
-
     public GameObject defaultBtn;
 
     private EventSystem myEventSystem;
+
+    public Selectable[] selectables;
+
+
+    private void OnEnable()
+    {
+        
+            for (int i = 0; i < selectables.Length; i++)
+            {
+                selectables[i].enabled = true;
+            }
+        
+    }
+
 
     private void Awake()
     {
@@ -24,7 +34,9 @@ public class ManagerMenu : MonoBehaviour
         myEventSystem.SetSelectedGameObject(null);
     }
 
-    private void Update()  
+   
+
+private void Update()  
     {
         if(myEventSystem.currentSelectedGameObject != null)
             defaultBtn = myEventSystem.currentSelectedGameObject.gameObject;
@@ -34,7 +46,6 @@ public class ManagerMenu : MonoBehaviour
            && myEventSystem.currentSelectedGameObject == null)
         {
             myEventSystem.SetSelectedGameObject(defaultBtn);
-            indexDefault = 0;
         }
     }
     

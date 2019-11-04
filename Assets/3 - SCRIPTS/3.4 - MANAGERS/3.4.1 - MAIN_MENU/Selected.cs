@@ -29,7 +29,7 @@ public class Selected : MonoBehaviour, ISelectHandler,
 
     public void CanvasNames()
     {
-        if(gameObject.name =)
+      //  if(gameObject.name =)
         m_canvasNext = gameObject.GetComponentInParent<Canvas>();
     }
    
